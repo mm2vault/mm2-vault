@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MM2 Vault</title>
+
+<meta name="description" content="MM2 Vault - Murder Mystery 2 item values, trade calculator, demand list ve en güncel MM2 değerleri.">
+
+<meta name="keywords" content="MM2, MM2 Values, Murder Mystery 2, MM2 Trade, MM2 Vault, Roblox MM2">
+
+<meta name="author" content="MM2 Vault">
+
+<meta name="theme-color" content="#0f172a">
+<link rel="icon" type="image/png" href="images/default.png">
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+<div id="loader">
+  
+  <div class="loader-logo">
+    💎 MM2 Vault
+  </div>
+  
+</div>
+
+<header>
+
+<h1 class="logo-title">
+  💎 MM2 Vault
+</h1>
+
+<p class="logo-subtitle">
+  MM2 Trade Values & Item Archive
+</p>
+
+<div class="site-stats">
+  
+  <span id="itemCount">
+    📦 0 Items
+  </span>
+  
+  <span id="favoriteCount">
+    ⭐ 0 Favorites
+  </span>
+  
+</div>
+
+
+
+<nav>
+
+<a href="index.html">
+🏠 Ana Sayfa
+</a>
+
+
+<a href="trade.html">
+⚖️ Trade
+</a>
+
+<a href="favorites.html">
+  ⭐ Favoriler
+</a>
+
+</nav>
+
+</header>
+
+
+
+
+
+<section class="tools">
+
+
+<input 
+id="searchBox"
+type="text"
+placeholder="🔍 Item ara..."
+>
+
+
+
+<select id="category">
+
+
+
+<option value="all">
+📦 Tüm Kategoriler
+</option>
+
+<option value="Chroma">
+🌈 Chroma
+</option>
+
+<option value="Godly">
+🟣 Godly
+</option>
+
+<option value="Ancient">
+⚔️ Ancient
+</option>
+
+<option value="Unique">
+👑 Unique
+</option>
+
+<option value="Vintage">
+🕰️ Vintage
+</option>
+
+<option value="Legendary">
+🔵 Legendary
+</option>
+
+<option value="Rare">
+🟢 Rare
+</option>
+
+<option value="Uncommon">
+🟡 Uncommon
+</option>
+
+<option value="Common">
+⚪ Common
+</option>
+
+
+</select>
+
+<select id="sort">
+
+  <option value="default">
+    📊 Sırala
+  </option>
+  
+  <option value="high">
+    💰 Value (Yüksek → Düşük)
+  </option>
+  
+  <option value="low">
+    💸 Value (Düşük → Yüksek)
+  </option>
+  
+  <option value="demand">
+    🔥 Demand
+  </option>
+  
+  <option value="az">
+    🔤 A → Z
+  </option>
+  
+  <option value="za">
+    🔠 Z → A
+  </option>
+  
+</select>
+
+</section>
+
+
+<section class="top-items">
+
+<h2>🔥 En Değerli Itemler</h2>
+
+<div id="topItems"></div>
+
+</section>
+
+<section class="trending-section">
+  
+  <h2>🔥 Trending Items</h2>
+  
+  <div id="trendingItems" class="trending-list">
+    
+  </div>
+  
+</section>
+
+
+<section id="items" class="items">
+
+</section>
+
+<footer class="footer">
+  
+  <p>© 2026 MM2 Vault • Made for Roblox Players</p>
+  
+</footer>
+
+<div id="toast"></div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

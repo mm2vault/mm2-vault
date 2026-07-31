@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MM2 Trade</title>
+<link rel="icon" type="image/png" href="images/default.png">
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+<div id="loader">
+  
+  <div class="loader-logo">
+    💎 MM2 Vault
+  </div>
+  
+</div>
+
+<header>
+
+<h1>⚖️ MM2 Trade</h1>
+
+<p>Trade değerini kontrol et</p>
+
+
+<nav>
+
+<a href="index.html">
+🏠 Ana Sayfa
+</a>
+
+
+<a href="trade.html">
+⚖️ Trade
+</a>
+
+<a href="favorites.html">
+  ⭐ Favoriler
+</a>
+
+</nav>
+
+
+</header>
+
+
+
+
+
+<main class="trade-container">
+
+
+
+<section class="trade-card">
+
+
+<h2>🔴 Sen Veriyorsun</h2>
+
+
+<div class="search-area">
+
+<input 
+id="giveSearch"
+placeholder="🔍 Item ara..."
+>
+
+
+<button onclick="toggleGiveList()">
+📦 Liste
+</button>
+
+</div>
+
+
+<div id="giveResults"></div>
+
+
+<div class="selected">
+
+<h3>Seçilenler</h3>
+
+<div id="giveSelected"></div>
+
+</div>
+
+
+<h3>
+💰 Value:
+<span id="giveValue">0</span>
+</h3>
+
+
+</section>
+
+
+
+
+
+
+
+<section class="trade-card">
+
+
+<h2>🟢 Karşı Taraf</h2>
+
+
+<div class="search-area">
+
+<input 
+id="takeSearch"
+placeholder="🔍 Item ara..."
+>
+
+
+<button onclick="toggleTakeList()">
+📦 Liste
+</button>
+
+
+</div>
+
+
+<div id="takeResults"></div>
+
+
+<div class="selected">
+
+
+<h3>Seçilenler</h3>
+
+
+<div id="takeSelected"></div>
+
+
+</div>
+
+
+<h3>
+💰 Value:
+<span id="takeValue">0</span>
+</h3>
+
+
+
+</section>
+
+
+
+
+</main>
+
+
+
+
+
+<div id="result" class="trade-result">
+
+⚖️ Trade bekleniyor...
+
+</div>
+
+
+
+
+
+<script src="trade.js"></script>
+
+
+</body>
+
+</html>
