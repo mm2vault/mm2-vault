@@ -44,9 +44,10 @@ ${item.category}
 </div>
 
 <img 
-src="${item.image || `images/${item.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.png`}"
+src="${item.image || item.name.toLowerCase().replace(/[^a-z0-9]+/g, "_") + ".png"}"
 class="item-image"
 alt="${item.name}"
+onerror="this.src='default.png'"
 >
 
 
@@ -86,6 +87,8 @@ ${item.obtained} • ${item.year}
 
 
 
+ 
+
 
 
 function showTopItems() {
@@ -122,8 +125,9 @@ function showTopItems() {
 
 
 <img 
-src="${item.image || `images/${item.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.png`}"
+src="${item.image || item.name.toLowerCase().replace(/[^a-z0-9]+/g, "_") + ".png"}"
 class="top-image"
+onerror="this.src='default.png'"
 >
 
 
@@ -154,6 +158,8 @@ class="top-image"
 
 
 
+
+ 
 
 
 
@@ -263,6 +269,8 @@ showItems(result);
 
 
 
+ 
+
 
 
 
@@ -334,7 +342,7 @@ function showTrendingItems() {
 
 <div class="trending-card" onclick='openDetail(${JSON.stringify(item)})'>
 
-<img src="${item.image || 'images/default.png'}">
+<img src="${item.image || item.name.toLowerCase().replace(/[^a-z0-9]+/g, "_") + ".png"}" onerror="this.src='default.png'">
 
 <div>
 
