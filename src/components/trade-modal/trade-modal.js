@@ -4,6 +4,7 @@
   const btn = document.getElementById('trade-list-btn');
   const modal = document.getElementById('trade-modal');
   const itemsContainer = document.getElementById('trade-items');
+  const loadingEl = document.getElementById('trade-loading');
   const closeElements = modal.querySelectorAll('[data-close]');
 
   // Fallback sample data if API not available
@@ -14,13 +15,20 @@
     { id:4, name: "Büyü Taşı", image: "/assets/items/crystal.png", value: 300 }
   ];
 
+  let lastFocused = null;
+
   function formatValue(v) {
     if (Number.isInteger(v)) return v + " ₺"; // örnek para birimi
     return v.toLocaleString(undefined, { maximumFractionDigits:2 }) + " ₺";
   }
 
   function showLoading() {
-    itemsContainer.innerHTML = '<p style="color:#6b7280">Yükleniyor…</p>';
+    if (loadingEl) loadingEl.setAttribute('aria-hidden','false');
+    if (itemsContainer) itemsContainer.innerHTML = '';
+  }
+
+  function hideLoading() {
+    if (loadingEl) loadingEl.setAttribute('aria-hidden','true');
   }
 
   function showError(msg) {
@@ -28,6 +36,7 @@
   }
 
   function renderItems(items) {
+    hideLoading();
     itemsContainer.innerHTML = '';
     if (!items || items.length === 0) {
       itemsContainer.innerHTML = '<p style="color:#6b7280">Gösterilecek eşya yok.</p>';
@@ -37,8 +46,9 @@
     items.forEach(it => {
       const card = document.createElement('div');
       card.className = 'item-card';
+      const imgSrc = escapeHtml(it.image || '/assets/items/placeholder.png');
       card.innerHTML = `
-        <div class="item-card__img"><img src="${escapeHtml(it.image)}" alt="${escapeHtml(it.name)}"></div>
+        <div class="item-card__img"><img src="${imgSrc}" alt="${escapeHtml(it.name)}" onerror="this.src='/assets/items/placeholder.png'"></div>
         <div class="item-card__meta">
           <div class="item-card__name">${escapeHtml(it.name)}</div>
           <div class="item-card__value"><span class="value-badge">${formatValue(it.value)}</span></div>
@@ -70,20 +80,44 @@
     }
   }
 
+  function trapFocus(e) {
+    const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.key === 'Tab') {
+      if (e.shiftKey) { // shift + tab
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+  }
+
   async function openModal() {
+    lastFocused = document.activeElement;
     modal.setAttribute('aria-hidden','false');
     showLoading();
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('keydown', trapFocus);
     // Fetch and render
     const items = await fetchItems();
     renderItems(items);
-    modal.querySelector('.trade-modal__close')?.focus();
-    document.addEventListener('keydown', onKeyDown);
+    // focus first interactive element
+    const closeBtn = modal.querySelector('.trade-modal__close');
+    (closeBtn || modal).focus();
   }
 
   function closeModal() {
     modal.setAttribute('aria-hidden','true');
     document.removeEventListener('keydown', onKeyDown);
-    btn?.focus();
+    document.removeEventListener('keydown', trapFocus);
+    if (lastFocused) lastFocused.focus();
   }
 
   function onKeyDown(e) {
@@ -103,7 +137,7 @@
       .replaceAll('&','&amp;')
       .replaceAll('<','&lt;')
       .replaceAll('>','&gt;')
-      .replaceAll('\"','&quot;')
+      .replaceAll('"','&quot;')
       .replaceAll("'", '&#39;');
   }
 

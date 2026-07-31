@@ -3,7 +3,7 @@
 <button id="trade-list-btn" class="trade-list-btn">Liste</button>
 
 <!-- Modal: put this near the end of <body> or in a layout partial -->
-<div id="trade-modal" class="trade-modal" aria-hidden="true" role="dialog" aria-labelledby="trade-modal-title">
+<div id="trade-modal" class="trade-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="trade-modal-title">
   <div class="trade-modal__overlay" data-close></div>
   <div class="trade-modal__panel" role="document">
     <header class="trade-modal__header">
@@ -11,7 +11,11 @@
       <button class="trade-modal__close" aria-label="Kapat" data-close>&times;</button>
     </header>
     <div class="trade-modal__body">
-      <div id="trade-items" class="trade-items">
+      <div id="trade-loading" class="trade-loading" aria-hidden="true" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <span class="sr-only">Yükleniyor…</span>
+      </div>
+      <div id="trade-items" class="trade-items" tabindex="0">
         <!-- JS ile buraya item kartları eklenecek -->
       </div>
     </div>
