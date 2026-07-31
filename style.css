@@ -3173,3 +3173,102 @@ to {
   #giveResults.grid-view .item,
   #takeResults.grid-view .item { width:45%; }
 }
+/* --- Trade view toggle styles --- */
+.search-area { display:flex; gap:8px; align-items:center; }
+
+.search-area button {
+  padding:6px 9px;
+  font-size:14px;
+  border-radius:6px;
+  border:1px solid #ccc;
+  background:#f5f5f5;
+  cursor:pointer;
+}
+
+.search-area button.active {
+  background:#007bff;
+  color:#fff;
+  border-color:#007bff;
+}
+
+/* Results container: grid default */
+#giveResults, #takeResults {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:flex-start;
+  margin-top:12px;
+  transition:all 0.15s ease;
+}
+
+/* Grid view: kart tarzı, daha büyük görsel */
+#giveResults.grid-view .item,
+#takeResults.grid-view .item {
+  width:160px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+#giveResults.grid-view .item img,
+#takeResults.grid-view .item img {
+  width:100%;
+  height:120px;
+  object-fit:cover;
+  border-radius:6px;
+  display:block;
+}
+
+/* List view: satır halinde küçük thumbnail + meta */
+#giveResults.list-view,
+#takeResults.list-view {
+  flex-direction:column;
+}
+
+#giveResults.list-view .item,
+#takeResults.list-view .item {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  width:100%;
+  padding:8px 6px;
+  border-bottom:1px solid #eee;
+  box-sizing:border-box;
+}
+
+#giveResults.list-view .item img,
+#takeResults.list-view .item img {
+  width:48px;
+  height:48px;
+  object-fit:cover;
+  border-radius:4px;
+  flex:0 0 48px;
+}
+
+/* Meta area inside an item */
+.item .meta {
+  overflow:hidden;
+}
+
+.item .meta h4 {
+  margin:0;
+  font-size:14px;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+}
+
+.item .meta p {
+  margin:4px 0 0 0;
+  font-size:12px;
+  color:#666;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+}
+
+/* Responsive tweaks */
+@media (max-width:600px) {
+  #giveResults.grid-view .item,
+  #takeResults.grid-view .item { width:45%; }
+}
