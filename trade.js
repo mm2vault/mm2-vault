@@ -28,15 +28,5 @@ document.addEventListener('DOMContentLoaded', function () {
   if (giveResults && !giveResults.classList.length) giveResults.classList.add('grid-view');
   if (takeResults && !takeResults.classList.length) takeResults.classList.add('grid-view');
 
-  // Eğer sayfa JS ile item oluşturuyorsa, yeni item'ların doğru sınıfları alması için MutationObserver (isteğe bağlı)
-  function ensureItemClassing(container) {
-    if (!container) return;
-    const mo = new MutationObserver(() => {
-      // Her .item içine küçük resmi list/grid ile uyumlu hale getirmek için ekstra işlem gerekirse buraya ekle
-      // (genelde CSS yeterlidir)
-    });
-    mo.observe(container, { childList: true, subtree: true });
-  }
-  ensureItemClassing(giveResults);
-  ensureItemClassing(takeResults);
+  // Eğer item'lar JS ile dinamik ekleniyorsa ileride gerekiyorsa buraya ekleme yapılır
 });
