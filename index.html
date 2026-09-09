@@ -1,1 +1,81 @@
-<!-- index.html - new version -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MM2 Vault — Ən Dəqiq Trade Dəyərləri</title>
+  <meta name="description" content="MM2 Vault - Murder Mystery 2 item values, trade calculator, demand list" />
+  <link rel="icon" type="image/png" href="default.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-icon">💎</div>
+    <div class="loader-spinner"></div>
+    <div class="loader-text">MM2 Vault yüklənir...</div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">💎 MM2 Vault</div>
+    <div class="logo-subtitle">Trade Values &amp; Item Archive</div>
+    
+    <div class="stats">
+      <span class="stat-badge">📦 <strong id="itemCount">0</strong> Items</span>
+      <span class="stat-badge">⭐ <strong id="favCount">0</strong> Favorites</span>
+    </div>
+
+    <nav>
+      <a href="index.html" class="active">🏠 Ana Səhifə</a>
+      <a href="trade.html">⚖️ Trade</a>
+      <a href="favorites.html">⭐ Favorilər</a>
+    </nav>
+  </header>
+
+  <!-- TOOLS -->
+  <section class="tools">
+    <input id="searchInput" type="text" placeholder="🔍 Item ara..." />
+    <select id="categoryFilter">
+      <option value="all">📦 Bütün Kateqoriyalar</option>
+      <option value="Chroma">🌈 Chroma</option>
+      <option value="Godly">🟣 Godly</option>
+      <option value="Ancient">⚔️ Ancient</option>
+      <option value="Unique">👑 Unique</option>
+      <option value="Vintage">🕰️ Vintage</option>
+      <option value="Legendary">🔵 Legendary</option>
+      <option value="Rare">🟢 Rare</option>
+      <option value="Uncommon">🟡 Uncommon</option>
+      <option value="Common">⚪ Common</option>
+    </select>
+    <select id="sortFilter">
+      <option value="default">📊 Sırala</option>
+      <option value="high">💰 Dəyər (Yüksək → Aşağı)</option>
+      <option value="low">💰 Dəyər (Aşağı → Yüksək)</option>
+      <option value="demand">🔥 Tələb</option>
+      <option value="az">🔤 A → Z</option>
+      <option value="za">🔤 Z → A</option>
+    </select>
+  </section>
+
+  <!-- TOP ITEMS -->
+  <section class="top-section">
+    <h2><span>🔥</span> Ən Dəyərli Itemlər</h2>
+    <div id="topItems" class="items" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr));"></div>
+  </section>
+
+  <!-- ALL ITEMS -->
+  <section id="itemsContainer" class="items"></section>
+
+  <!-- TOAST -->
+  <div id="toast"></div>
+
+  <footer>
+    <p>© 2026 MM2 Vault • Made for Roblox Players</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
