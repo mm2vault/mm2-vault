@@ -8,149 +8,31 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- LOADER -->
   <div id="loader">
     <div class="loader-icon">⭐</div>
     <div class="loader-spinner"></div>
     <div class="loader-text">Yüklənir...</div>
   </div>
-
-  <!-- HEADER -->
   <header>
-    <div class="logo">⭐ Favorilər</div>
+    <div class="logo"><span class="brand-mark">MM2</span> <span data-i18n="favorites">Favorilər</span></div>
     <div class="logo-subtitle">Seçdiyin MM2 itemləri</div>
-    
-    <div class="stats">
-      <span class="stat-badge">⭐ <strong id="favCount">0</strong> Favori</span>
-    </div>
-
+    <div class="stats"><span class="stat-badge">⭐ <strong id="favCount">0</strong> Favori</span></div>
     <nav>
-      <a href="index.html">🏠 Ana Səhifə</a>
-      <a href="trade.html">⚖️ Trade</a>
-      <a href="favorites.html" class="active">⭐ Favorilər</a>
+      <a href="index.html" data-i18n="home">🏠 Ana Səhifə</a>
+      <a href="trade.html" data-i18n="trade">⚖️ Trade</a>
+      <a href="favorites.html" class="active" data-i18n="favorites">⭐ Favorilər</a>
+      <a href="admin.html" data-i18n="admin">🛠️ Admin</a>
     </nav>
   </header>
-
-  <!-- ITEMS -->
+  <a class="discord-join page-discord" data-i18n="discord" href="https://discord.gg/JJmEGx9mN3" target="_blank" rel="noopener noreferrer">Discorda qoşul</a>
+  <div class="social-links page-social"><a class="social-link tiktok" data-i18n="tiktok" href="https://www.tiktok.com/@mm2_ultimatehub?_r=1&_t=ZS-99afIDHeR9z" target="_blank" rel="noopener noreferrer">TikTok</a><a class="social-link youtube" data-i18n="youtube" href="https://youtube.com/@mm2_ultimatehub?si=GOJuAj5E8oGq5SvF" target="_blank" rel="noopener noreferrer">YouTube</a></div>
   <section id="favoriteItems" class="items" style="padding-top:20px;"></section>
-
-  <!-- TOAST -->
   <div id="toast"></div>
-
-  <footer>
-    <p>© 2026 MM2 Vault • Made for Roblox Players</p>
-  </footer>
-
-  <script>
-    // ============================================
-    // MM2 VAULT - FAVORİLƏR SƏHİFƏSİ
-    // ============================================
-
-    let items = [];
-    let favorites = JSON.parse(localStorage.getItem('mm2_favorites')) || [];
-
-    const container = document.getElementById('favoriteItems');
-    const favCount = document.getElementById('favCount');
-    const loader = document.getElementById('loader');
-    const toast = document.getElementById('toast');
-
-    // ---------- TOAST ----------
-    let toastTimeout;
-    function showToast(message, type = 'success') {
-      if (!toast) return;
-      toast.textContent = message;
-      toast.className = type;
-      toast.classList.add('show');
-      clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
-        toast.classList.remove('show');
-      }, 2800);
-    }
-
-    // ---------- LOAD DATA ----------
-    async function loadItems() {
-      try {
-        const res = await fetch('items.json');
-        if (!res.ok) throw new Error('items.json tapılmadı');
-        const data = await res.json();
-        items = data.items || data || [];
-      } catch (error) {
-        console.warn('items.json yüklənmədi, fallback istifadə olunur:', error);
-        items = [
-          { id: 'travelers_axe', name: "Traveler's Axe", category: 'Unique', value: 1000, demand: 10, image: 'Travellers_Axe.png' },
-          { id: 'makeshift', name: 'Makeshift', category: 'Unique', value: 800, demand: 9, image: 'Makeshift.png' },
-        ];
-      }
-    }
-
-    // ---------- RENDER ----------
-    function renderFavorites() {
-      if (!container) return;
-
-      const favItems = items.filter(item => favorites.includes(item.id));
-
-      if (favItems.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state" style="grid-column:1/-1;padding:60px 20px;">
-            <div class="icon">💔</div>
-            <h2 style="color:white;">Hələ favori yoxdur</h2>
-            <p style="color:var(--text-muted);">Ana səhifədə itemlərin üstündəki ❤️ düyməsinə basaraq favorilərə əlavə edə bilərsiniz.</p>
-            <a href="index.html" style="display:inline-block;margin-top:16px;padding:10px 24px;background:var(--blue);color:white;border-radius:var(--radius-sm);text-decoration:none;">🏠 Ana Səhifəyə dön</a>
-          </div>
-        `;
-        if (favCount) favCount.textContent = '0';
-        return;
-      }
-
-      container.innerHTML = favItems.map(item => `
-        <div class="card rarity-${item.category}" data-id="${item.id}">
-          <button class="fav-btn active" data-id="${item.id}" aria-label="Favori">❤️</button>
-          <img src="${item.image || 'default.png'}" alt="${item.name}" loading="lazy" onerror="this.src='default.png'" />
-          <h3>${item.name}</h3>
-          <div class="value">💰 ${item.value}</div>
-          <div class="category">${item.category}</div>
-          <div class="demand">🔥 Tələb: ${item.demand}/10</div>
-        </div>
-      `).join('');
-
-      if (favCount) favCount.textContent = favItems.length;
-
-      // Event: click card -> detail
-      container.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('click', (e) => {
-          if (e.target.closest('.fav-btn')) return;
-          window.location.href = `detail.html?id=${card.dataset.id}`;
-        });
-      });
-
-      // Event: favorite button -> remove from favorites
-      container.querySelectorAll('.fav-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const id = btn.dataset.id;
-          const index = favorites.indexOf(id);
-          if (index > -1) {
-            favorites.splice(index, 1);
-            localStorage.setItem('mm2_favorites', JSON.stringify(favorites));
-            showToast('💔 Favorilərdən çıxarıldı', 'error');
-            renderFavorites();
-          }
-        });
-      });
-    }
-
-    // ---------- INIT ----------
-    async function init() {
-      await loadItems();
-      renderFavorites();
-      if (loader) {
-        setTimeout(() => loader.classList.add('hidden'), 400);
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', init);
-  </script>
-
+  <footer><p>© 2026 MM2 Vault • Made for Roblox Players</p></footer>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="firebase-init.js"></script>
+  <script src="i18n.js"></script>
+  <script src="favorites.js"></script>
 </body>
 </html>

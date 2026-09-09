@@ -8,6 +8,16 @@ let takeItems = [];
 let giveSearchTerm = '';
 let takeSearchTerm = '';
 
+function normalizeItems(data) {
+  const usedIds = new Set();
+  return (data.items || data || []).map((item, index) => {
+    const baseId = item.id || item.name.toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+    const id = usedIds.has(baseId) ? `${baseId}_${index + 1}` : baseId;
+    usedIds.add(id);
+    return { ...item, id };
+  });
+}
+
 // ---------- DOM REFS ----------
 const giveSearch = document.getElementById('giveSearch');
 const takeSearch = document.getElementById('takeSearch');
@@ -18,6 +28,8 @@ const takeSelected = document.getElementById('takeSelected');
 const giveValue = document.getElementById('giveValue');
 const takeValue = document.getElementById('takeValue');
 const result = document.getElementById('result');
+const tradeHistoryContainer = document.getElementById('tradeHistory');
+let tradeHistory = JSON.parse(localStorage.getItem('mm2_trade_history') || '[]');
 
 // ---------- LOAD DATA ----------
 async function loadItems() {
@@ -25,7 +37,18 @@ async function loadItems() {
     const res = await fetch('items.json');
     if (!res.ok) throw new Error('items.json tapılmadı');
     const data = await res.json();
-    items = data.items || data || [];
+    items = normalizeItems(data);
+    if (window.firebaseDb) {
+      try {
+        const cloudSnapshot = await window.firebaseDb.collection('items').get();
+        const cloudItems = cloudSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const merged = new Map(items.map(item => [item.id, item]));
+        cloudItems.forEach(item => merged.set(item.id, item));
+        items = normalizeItems([...merged.values()]);
+      } catch (cloudError) {
+        console.warn('Cloud itemləri yüklənmədi, JSON istifadə olunur:', cloudError);
+      }
+    }
   } catch (error) {
     console.warn('items.json yüklənmədi, fallback istifadə olunur:', error);
     items = [
@@ -50,7 +73,7 @@ function renderResults(searchTerm, container, selectedItems, type) {
     return;
   }
 
-  container.innerHTML = filtered.slice(0, 20).map(item => `
+  container.innerHTML = filtered.slice(0, 30).map(item => `
     <div class="item" data-id="${item.id}">
       <img src="${item.image || 'default.png'}" alt="${item.name}" onerror="this.src='default.png'" />
       <div class="meta">
@@ -140,13 +163,13 @@ function updateTradeResult() {
   let text = 'Bərabər Trade!';
 
   if (diff > 0) {
-    status = 'lose';
-    emoji = '❌';
-    text = `Sən zərərdəsən! +${diff} dəyər`;
-  } else if (diff < 0) {
     status = 'win';
     emoji = '✅';
     text = `Sən qazanırsan! ${Math.abs(diff)} dəyər`;
+  } else if (diff < 0) {
+    status = 'lose';
+    emoji = '❌';
+    text = `Sən zərərdəsən! ${Math.abs(diff)} dəyər`;
   }
 
   result.className = `trade-result ${status}`;
@@ -154,6 +177,22 @@ function updateTradeResult() {
     ${emoji} ${text}
     <small>Sən: ${giveTotal} ⚖️ Qarşı: ${takeTotal}</small>
   `;
+}
+
+function renderTradeHistory() {
+  if (!tradeHistoryContainer) return;
+  tradeHistoryContainer.innerHTML = tradeHistory.length ? tradeHistory.slice(0, 8).map(entry => `<div class="history-row"><span>${new Date(entry.date).toLocaleString()}</span><strong class="${entry.status}">${entry.status.toUpperCase()}</strong><span>${entry.give} → ${entry.take}</span></div>`).join('') : '<p class="admin-muted">Hələ trade tarixçəsi yoxdur.</p>';
+}
+
+function saveTradeHistory() {
+  const giveTotal = giveItems.reduce((sum, item) => sum + item.value, 0);
+  const takeTotal = takeItems.reduce((sum, item) => sum + item.value, 0);
+  if (!giveTotal && !takeTotal) return;
+  const status = takeTotal > giveTotal ? 'win' : takeTotal < giveTotal ? 'lose' : 'fair';
+  tradeHistory.unshift({ date: new Date().toISOString(), give: giveTotal, take: takeTotal, status });
+  tradeHistory = tradeHistory.slice(0, 20);
+  localStorage.setItem('mm2_trade_history', JSON.stringify(tradeHistory));
+  renderTradeHistory();
 }
 
 // ---------- TOGGLE LIST (Show All) ----------
@@ -164,7 +203,7 @@ window.toggleGiveList = function() {
     renderResults(giveSearchTerm, giveResults, giveItems, 'give');
     return;
   }
-  giveResults.innerHTML = allItems.slice(0, 30).map(item => `
+  giveResults.innerHTML = allItems.map(item => `
     <div class="item" data-id="${item.id}">
       <img src="${item.image || 'default.png'}" alt="${item.name}" onerror="this.src='default.png'" />
       <div class="meta">
@@ -194,7 +233,7 @@ window.toggleTakeList = function() {
     renderResults(takeSearchTerm, takeResults, takeItems, 'take');
     return;
   }
-  takeResults.innerHTML = allItems.slice(0, 30).map(item => `
+  takeResults.innerHTML = allItems.map(item => `
     <div class="item" data-id="${item.id}">
       <img src="${item.image || 'default.png'}" alt="${item.name}" onerror="this.src='default.png'" />
       <div class="meta">
@@ -240,6 +279,7 @@ async function initTrade() {
   renderResults('', giveResults, giveItems, 'give');
   renderResults('', takeResults, takeItems, 'take');
   updateTradeResult();
+  renderTradeHistory();
 
   // Hide loader
   const loader = document.getElementById('loader');
@@ -247,5 +287,9 @@ async function initTrade() {
     setTimeout(() => loader.classList.add('hidden'), 400);
   }
 }
+
+document.getElementById('clearTradeHistory')?.addEventListener('click', () => { tradeHistory = []; localStorage.removeItem('mm2_trade_history'); renderTradeHistory(); });
+document.getElementById('saveTrade')?.addEventListener('click', saveTradeHistory);
+window.saveTradeHistory = saveTradeHistory;
 
 document.addEventListener('DOMContentLoaded', initTrade);

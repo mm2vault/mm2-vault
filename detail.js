@@ -4,6 +4,16 @@
 
 let items = [];
 
+function normalizeItems(data) {
+  const usedIds = new Set();
+  return (data.items || data || []).map((item, index) => {
+    const baseId = item.id || item.name.toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+    const id = usedIds.has(baseId) ? `${baseId}_${index + 1}` : baseId;
+    usedIds.add(id);
+    return { ...item, id };
+  });
+}
+
 // ---------- DOM REFS ----------
 const detailContainer = document.getElementById('detail');
 const loader = document.getElementById('loader');
@@ -20,7 +30,18 @@ async function loadItems() {
     const res = await fetch('items.json');
     if (!res.ok) throw new Error('items.json tapılmadı');
     const data = await res.json();
-    items = data.items || data || [];
+    items = normalizeItems(data);
+    if (window.firebaseDb) {
+      try {
+        const cloudSnapshot = await window.firebaseDb.collection('items').get();
+        const cloudItems = cloudSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const merged = new Map(items.map(item => [item.id, item]));
+        cloudItems.forEach(item => merged.set(item.id, item));
+        items = normalizeItems([...merged.values()]);
+      } catch (cloudError) {
+        console.warn('Cloud itemləri yüklənmədi, JSON istifadə olunur:', cloudError);
+      }
+    }
   } catch (error) {
     console.warn('items.json yüklənmədi, fallback istifadə olunur:', error);
     items = [
@@ -48,6 +69,9 @@ function renderDetail(itemId) {
     return;
   }
 
+  const history = Array.isArray(item.valueHistory) && item.valueHistory.length ? item.valueHistory : [{ value: item.value, changedAt: null }];
+  const maxValue = Math.max(...history.map(entry => Number(entry.value) || 0), 1);
+  const chart = history.slice(-12).map((entry, index) => `<div class="history-bar" style="height:${Math.max(12, (Number(entry.value) / maxValue) * 100)}%" title="${entry.value}"><span>${entry.value}</span></div>`).join('');
   detailContainer.innerHTML = `
     <div class="detail-card rarity-${item.category}">
       <img src="${item.image || 'default.png'}" alt="${item.name}" onerror="this.src='default.png'" />
@@ -64,6 +88,7 @@ function renderDetail(itemId) {
         <p><strong>İl</strong> ${item.year || '—'}</p>
         ${item.description ? `<p><strong>Təsvir</strong> ${item.description}</p>` : ''}
       </div>
+      <div class="value-history"><h2>📈 Dəyər tarixçəsi</h2><div class="history-chart">${chart}</div></div>
       <a href="index.html" class="back-btn" style="display:inline-block;margin-top:16px;">🏠 Ana Səhifəyə dön</a>
     </div>
   `;

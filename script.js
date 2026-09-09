@@ -17,10 +17,11 @@ const itemCountEl = document.getElementById('itemCount');
 const favCountEl = document.getElementById('favCount');
 const loader = document.getElementById('loader');
 const toast = document.getElementById('toast');
+const pulseItems = document.getElementById('pulseItems');
 
 // ---------- UTILITY ----------
 function formatValue(value) {
-  if (value >= 1000) return (value / 1000).toFixed(1) + 'K';
+  if (value >= 1000) return `${(value / 1000).toFixed(1).replace('.0', '')}K`;
   if (value >= 100) return value.toString();
   return value.toString();
 }
@@ -29,9 +30,28 @@ function isFavorite(id) {
   return favorites.includes(id);
 }
 
+function normalizeItems(data) {
+  const usedIds = new Set();
+  return (data.items || data || []).map((item, index) => {
+    const baseId = item.id || item.name.toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+    const id = usedIds.has(baseId) ? `${baseId}_${index + 1}` : baseId;
+    usedIds.add(id);
+    return { ...item, id };
+  });
+}
+
 function updateStats() {
   if (itemCountEl) itemCountEl.textContent = items.length;
   if (favCountEl) favCountEl.textContent = favorites.length;
+}
+
+function renderMarketPulse() {
+  if (!pulseItems) return;
+  const changed = items.filter(item => Number(item.valueChange)).sort((a, b) => Math.abs(b.valueChange) - Math.abs(a.valueChange)).slice(0, 4);
+  pulseItems.innerHTML = changed.length ? changed.map(item => {
+    const up = Number(item.valueChange) > 0;
+    return `<span class="pulse-chip ${up ? 'up' : 'down'}"><b>${up ? '↑' : '↓'}</b> ${item.name} <strong>${up ? '+' : ''}${item.valueChange}</strong></span>`;
+  }).join('') : '<span class="pulse-empty">Yeni dəyər dəyişiklikləri burada görünəcək</span>';
 }
 
 // ---------- TOAST ----------
@@ -180,6 +200,7 @@ function renderTopItems() {
 
 // ---------- RENDER ALL ----------
 function renderAll() {
+  renderMarketPulse();
   renderTopItems();
   filterAndSort();
   updateStats();
@@ -191,7 +212,18 @@ async function loadItems() {
     const response = await fetch('items.json');
     if (!response.ok) throw new Error('items.json tapılmadı');
     const data = await response.json();
-    items = data.items || data || [];
+    items = normalizeItems(data);
+    if (window.firebaseDb) {
+      try {
+        const cloudSnapshot = await window.firebaseDb.collection('items').get();
+        const cloudItems = cloudSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const merged = new Map(items.map(item => [item.id, item]));
+        cloudItems.forEach(item => merged.set(item.id, item));
+        items = normalizeItems([...merged.values()]);
+      } catch (cloudError) {
+        console.warn('Cloud itemləri yüklənmədi, JSON istifadə olunur:', cloudError);
+      }
+    }
   } catch (error) {
     console.warn('items.json yüklənmədi, fallback məlumatlar istifadə olunur:', error);
     // Fallback: əgər items.json yoxdursa
