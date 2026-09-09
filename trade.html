@@ -1,1 +1,77 @@
-<!-- trade.html - new version -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MM2 Vault - Trade Kalkulyatoru</title>
+  <link rel="icon" type="image/png" href="default.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-icon">⚖️</div>
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Trade yüklənir...</div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">⚖️ MM2 Trade</div>
+    <div class="logo-subtitle">Trade dəyərini hesabla</div>
+
+    <nav>
+      <a href="index.html">🏠 Ana Səhifə</a>
+      <a href="trade.html" class="active">⚖️ Trade</a>
+      <a href="favorites.html">⭐ Favorilər</a>
+    </nav>
+  </header>
+
+  <!-- TRADE CONTAINER -->
+  <div class="trade-container">
+    <!-- GIVE -->
+    <section class="trade-card give">
+      <h2>🔴 Sən Verirsən</h2>
+      <div class="search-area">
+        <input id="giveSearch" placeholder="🔍 Item ara..." />
+        <button onclick="toggleGiveList()">📦 Liste</button>
+      </div>
+      <div id="giveResults"></div>
+      <div class="selected">
+        <h3 style="font-size:14px;color:var(--text-secondary);margin-bottom:8px;">Seçilənlər</h3>
+        <div id="giveSelected"></div>
+      </div>
+      <h3>💰 Dəyər: <span id="giveValue">0</span></h3>
+    </section>
+
+    <!-- TAKE -->
+    <section class="trade-card take">
+      <h2>🟢 Qarşı Tərəf</h2>
+      <div class="search-area">
+        <input id="takeSearch" placeholder="🔍 Item ara..." />
+        <button onclick="toggleTakeList()">📦 Liste</button>
+      </div>
+      <div id="takeResults"></div>
+      <div class="selected">
+        <h3 style="font-size:14px;color:var(--text-secondary);margin-bottom:8px;">Seçilənlər</h3>
+        <div id="takeSelected"></div>
+      </div>
+      <h3>💰 Dəyər: <span id="takeValue">0</span></h3>
+    </section>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result" class="trade-result">⚖️ Trade gözləyir...</div>
+
+  <!-- TOAST -->
+  <div id="toast"></div>
+
+  <footer>
+    <p>© 2026 MM2 Vault • Made for Roblox Players</p>
+  </footer>
+
+  <script src="trade.js"></script>
+
+</body>
+</html>
