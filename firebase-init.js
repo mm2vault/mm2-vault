@@ -1,14 +1,15 @@
-// Firebase web client initialization.
+// Firebase web client initialization — MM2 Vault
 const firebaseConfig = {
-  apiKey: "AIzaSyDKdE947q36KwQxkrxbUzpmoynaMsssWB8",
-  authDomain: "scripthub-b95d1.firebaseapp.com",
-  projectId: "scripthub-b95d1",
-  storageBucket: "scripthub-b95d1.firebasestorage.app",
-  messagingSenderId: "435891213405",
-  appId: "1:435891213405:web:522b592d921689882629b4",
-  measurementId: "G-PVXHHBYLGR"
+  apiKey: "AIzaSyBWnPbMCaQXR88AIvm6PAhm2G-KK0KA46w",
+  authDomain: "mm2-vault.firebaseapp.com",
+  projectId: "mm2-vault",
+  storageBucket: "mm2-vault.firebasestorage.app",
+  messagingSenderId: "1041979076763",
+  appId: "1:1041979076763:web:218076ad6319e50533d63e",
+  measurementId: "G-EHFTECEKS5"
 };
 
 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+window.firebaseApp = firebase.app();
 window.firebaseAuth = firebase.auth();
 window.firebaseDb = firebase.firestore();
