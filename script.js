@@ -110,7 +110,7 @@ function renderCards(itemsToRender, container) {
         <button class="fav-btn ${fav ? 'active' : ''}" data-id="${item.id}" aria-label="Favori">
           ${fav ? '★' : '☆'}
         </button>
-        <img src="${item.image || 'default.png'}" alt="${item.name}" loading="lazy" onerror="this.src='default.png'" />
+        <img src="${item.image || 'default.svg'}" alt="${item.name}" loading="lazy" onerror="this.src='default.svg'" />
         <h3>${item.name}</h3>
         <div class="value">${formatValue(item.value)}</div>
         <div class="category">${item.category}</div>
@@ -191,7 +191,7 @@ function renderTopItems() {
 
   topItemsContainer.innerHTML = top.map(item => `
     <div class="card rarity-${item.category}" data-id="${item.id}" style="cursor:pointer;">
-      <img src="${item.image || 'default.png'}" alt="${item.name}" loading="lazy" onerror="this.src='default.png'" />
+      <img src="${item.image || 'default.svg'}" alt="${item.name}" loading="lazy" onerror="this.src='default.svg'" />
       <h3>${item.name}</h3>
       <div class="value">${formatValue(item.value)}</div>
       <div class="category">${item.category}</div>
