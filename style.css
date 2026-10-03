@@ -1038,3 +1038,10 @@ footer {
   .history-row{grid-template-columns:1fr auto}
   .history-row span:last-child{grid-column:1/-1}
 }
+
+/* ---------- LANGUAGE PICKER ---------- */
+.language-picker{display:inline-flex;align-items:center;gap:7px;margin-left:10px;padding:7px 10px;border:1px solid rgba(255,255,255,.10);border-radius:12px;background:rgba(255,255,255,.045);color:#fff;backdrop-filter:blur(14px)}
+.language-picker select{border:0;outline:0;background:transparent;color:inherit;font:600 12px/1 inherit;cursor:pointer;max-width:145px}
+.language-picker option{background:#11172a;color:#fff}
+.language-globe{opacity:.75;font-size:16px}
+@media(max-width:760px){.language-picker{margin-left:5px;padding:6px 8px}.language-picker select{max-width:74px}.language-globe{display:none}}
