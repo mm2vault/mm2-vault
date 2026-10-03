@@ -3,7 +3,7 @@ function hasAiConfig() {
 }
 
 async function analyzeValueChanges(sourceText, items) {
-  if (!hasAiConfig()) throw new Error('Gemini API key yapılandırılmamış. ai-config.local.js dosyasını oluştur.');
+  if (!hasAiConfig()) throw new Error('AI analiz şu anda yapılandırılmamış. Normal item düzenleme ve değer güncelleme araçlarını kullan.');
   if (!sourceText.trim()) throw new Error('Önce MM2Values değişiklik metnini yapıştır.');
 
   const knownItems = items.map(item => ({ id: item.id, name: item.name, value: item.value }));
