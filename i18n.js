@@ -1,63 +1,83 @@
-const MM2_TRANSLATIONS = {
-  az: { home: 'Ana Səhifə', trade: 'Trade', favorites: 'Favorilər', admin: 'Admin', language: 'Dil', search: 'Item ara...', back: 'Geri Dön', login: 'Google ilə giriş', logout: 'Çıxış', discord: 'Discorda qoşul', tiktok: 'TikTok', youtube: 'YouTube', categories: 'Bütün Kateqoriyalar', sort: 'Sırala', top: 'Ən Dəyərli Itemlər', give: 'Sən Verirsən', take: 'Qarşı Tərəf', detail: 'Item Detay', adminLogin: 'Admin girişi' },
-  tr: { home: 'Ana Sayfa', trade: 'Trade', favorites: 'Favoriler', admin: 'Admin', language: 'Dil', search: 'Eşya ara...', back: 'Geri Dön', login: 'Google ile giriş', logout: 'Çıkış', discord: 'Discorda katıl', tiktok: 'TikTok', youtube: 'YouTube', categories: 'Tüm Kategoriler', sort: 'Sırala', top: 'En Değerli Eşyalar', give: 'Sen Veriyorsun', take: 'Karşı Taraf', detail: 'Eşya Detayı', adminLogin: 'Admin girişi' },
-  en: { home: 'Home', trade: 'Trade', favorites: 'Favorites', admin: 'Admin', language: 'Language', search: 'Search item...', back: 'Back', login: 'Sign in with Google', logout: 'Sign out', discord: 'Join Discord', tiktok: 'TikTok', youtube: 'YouTube', categories: 'All Categories', sort: 'Sort', top: 'Most Valuable Items', give: 'You Give', take: 'Other Side', detail: 'Item Details', adminLogin: 'Admin login' }
+const MM2_LANGUAGES = {
+  az: { name:'Azərbaycan dili', short:'AZ', dir:'ltr' },
+  tr: { name:'Türkçe', short:'TR', dir:'ltr' },
+  en: { name:'English', short:'EN', dir:'ltr' },
+  ru: { name:'Русский', short:'RU', dir:'ltr' }
 };
 
-const MM2_STATIC_TRANSLATIONS = {
-  'az': {
-    'Trade Values & Item Archive': 'Trade Dəyərləri və Item Arxivi', 'MM2 Vault yüklənir...': 'MM2 Vault yüklənir...', 'Favorites': 'Favorilər', 'Favorites': 'Favorilər', 'Favori': 'Favori', 'Favorilər': 'Favorilər', 'Seçdiyin MM2 itemləri': 'Seçdiyin MM2 itemləri', 'Detay yüklənir...': 'Detay yüklənir...', 'Trade yüklənir...': 'Trade yüklənir...', 'Trade dəyərini hesabla': 'Trade dəyərini hesabla', 'Item Detay': 'Item Detay', 'Əşya haqqında tam məlumat': 'Əşya haqqında tam məlumat', 'Geri Dön': 'Geri Dön', 'Bütün Kateqoriyalar': 'Bütün Kateqoriyalar', 'Sırala': 'Sırala', 'Dəyər (Yüksək → Aşağı)': 'Dəyər (Yüksək → Aşağı)', 'Dəyər (Aşağı → Yüksək)': 'Dəyər (Aşağı → Yüksək)', 'Tələb': 'Tələb', 'Sən Verirsən': 'Sən Verirsən', 'Qarşı Tərəf': 'Qarşı Tərəf', 'Liste': 'Siyahı', 'Seçilənlər': 'Seçilənlər', 'Dəyər:': 'Dəyər:', 'Trade gözləyir...': 'Trade gözləyir...', 'Trade tarixçəsi': 'Trade tarixçəsi', 'Təmizlə': 'Təmizlə', 'Trade-i yadda saxla': 'Trade-i yadda saxla', 'Admin yüklənir...': 'Admin yüklənir...', 'Item idarəetmə paneli': 'Item idarəetmə paneli', 'Admin girişi': 'Admin girişi', 'Yalnız təsdiqlənmiş Google hesabı ilə daxil ola bilərsiniz.': 'Yalnız təsdiqlənmiş Google hesabı ilə daxil ola bilərsiniz.', 'Yeni item əlavə et': 'Yeni item əlavə et', 'Düzəlt': 'Düzəlt', 'Sil': 'Sil', 'Bütün itemlər': 'Bütün itemlər', 'Bütün kateqoriyalar': 'Bütün kateqoriyalar', 'AI dəyər köməkçisi': 'AI dəyər köməkçisi', 'Dəyərləri analiz et': 'Dəyərləri analiz et', 'MM2Values dəyişikliklərini aç': 'MM2Values dəyişikliklərini aç', '📦 Mövcud itemləri cloud-a köçür': '📦 Mövcud itemləri cloud-a köçür', 'Dəyər tarixçəsi': 'Dəyər tarixçəsi', 'Hələ item yoxdur': 'Hələ item yoxdur', 'Hələ favori yoxdur': 'Hələ favori yoxdur', 'Heç bir item tapılmadı': 'Heç bir item tapılmadı', '© 2026 MM2 Vault • Made for Roblox Players': '© 2026 MM2 Vault • Roblox oyunçuları üçün'
+const T = {
+  az: {
+    home:'Ana Səhifə', trade:'Trade', favorites:'Favorilər', admin:'Admin', language:'Dil', search:'Item axtar...', back:'Geri qayıt', login:'Google ilə giriş', logout:'Çıxış', discord:'Discorda qoşul', tiktok:'TikTok', youtube:'YouTube',
+    categories:'Bütün kateqoriyalar', sort:'Sırala', all:'Bütün itemlər', top:'Ən dəyərli itemlər', market:'Bazar', trending:'İndi nə trenddədir?', live:'Market aktivdir', pulse:'MARKET PULSE', pulseText:'Dəyər dəyişiklikləri izlənir',
+    value:'Dəyər', demand:'Tələb', favoritesCount:'Favorilər', liveValues:'Canlı dəyərlər', checkValues:'Dəyərləri tez yoxla', popular:'Populyar itemləri gör', saveFavorites:'Sevdiklərini saxla',
+    tradeCalc:'Trade Kalkulyatoru', discover:'Itemləri kəşf et', madeFor:'Roblox oyunçuları üçün', detail:'Item Detayı', details:'Item haqqında tam məlumat', waiting:'Trade gözləyir...', selected:'Seçilənlər', clear:'Təmizlə', saveTrade:'Trade-i yadda saxla', history:'Trade tarixçəsi',
+    win:'WIN', fair:'FAIR', lose:'LOSE', noFav:'Hələ favori yoxdur', noFavText:'Itemləri ana səhifədən favorilərə əlavə edə bilərsiniz.', homeBack:'Ana səhifəyə qayıt',
+    adminLogin:'Admin girişi', adminOnly:'Yalnız təsdiqlənmiş Google hesabı ilə daxil ola bilərsiniz.', addItem:'Yeni item əlavə et', edit:'Düzəlt', delete:'Sil', allItems:'Bütün itemlər', allCategories:'Bütün kateqoriyalar', ai:'AI dəyər köməkçisi', analyze:'Dəyərləri analiz et', seed:'Mövcud itemləri cloud-a köçür',
+    loading:'Yüklənir...', loadingDetails:'Detay yüklənir...', loadingTrade:'Trade yüklənir...', loadingAdmin:'Admin yüklənir...', notFound:'Item tapılmadı', noItems:'Heç bir item tapılmadı', clearHistory:'Tarixçəni təmizlə', valueHigh:'Dəyər: yüksək → aşağı', valueLow:'Dəyər: aşağı → yüksək', demandSort:'Tələb', azSort:'A → Z', zaSort:'Z → A',
+    title:'MM2 Vault — Trade Dəyərləri', hero:'Trade dəyərini bir baxışda tap.', heroText:'MM2 itemlərini axtar, dəyərini yoxla, demand-ı müqayisə et və trade qərarını daha rahat ver.'
   },
-  'tr': {
-    'Trade Values & Item Archive': 'Trade Değerleri ve Eşya Arşivi', 'MM2 Vault yüklənir...': 'MM2 Vault yükleniyor...', 'Favorites': 'Favoriler', 'Favori': 'Favori', 'Favorilər': 'Favoriler', 'Seçdiyin MM2 itemləri': 'Seçtiğin MM2 eşyaları', 'Detay yüklənir...': 'Detay yükleniyor...', 'Trade yüklənir...': 'Trade yükleniyor...', 'Trade dəyərini hesabla': 'Trade değerini hesapla', 'Item Detay': 'Eşya Detayı', 'Əşya haqqında tam məlumat': 'Eşya hakkında tüm bilgiler', 'Geri Dön': 'Geri Dön', 'Bütün Kateqoriyalar': 'Tüm Kategoriler', 'Sırala': 'Sırala', 'Dəyər (Yüksək → Aşağı)': 'Değer (Yüksek → Düşük)', 'Dəyər (Aşağı → Yüksək)': 'Değer (Düşük → Yüksek)', 'Tələb': 'Talep', 'Sən Verirsən': 'Sen Veriyorsun', 'Qarşı Tərəf': 'Karşı Taraf', 'Liste': 'Liste', 'Seçilənlər': 'Seçilenler', 'Dəyər:': 'Değer:', 'Trade gözləyir...': 'Trade bekleniyor...', 'Trade tarixçəsi': 'Trade geçmişi', 'Təmizlə': 'Temizle', 'Trade-i yadda saxla': 'Trade kaydet', 'Admin yüklənir...': 'Admin yükleniyor...', 'Item idarəetmə paneli': 'Eşya yönetim paneli', 'Admin girişi': 'Admin girişi', 'Yalnız təsdiqlənmiş Google hesabı ilə daxil ola bilərsiniz.': 'Yalnız onaylı Google hesabıyla giriş yapabilirsiniz.', 'Yeni item əlavə et': 'Yeni eşya ekle', 'Düzəlt': 'Düzenle', 'Sil': 'Sil', 'Bütün itemlər': 'Tüm eşyalar', 'Bütün kateqoriyalar': 'Tüm kategoriler', 'AI dəyər köməkçisi': 'AI değer yardımcısı', 'Dəyərləri analiz et': 'Değerleri analiz et', 'MM2Values dəyişikliklərini aç': 'MM2Values değişikliklerini aç', '📦 Mövcud itemləri cloud-a köçür': '📦 Mevcut eşyaları cloud’a aktar', 'Dəyər tarixçəsi': 'Değer geçmişi', 'Hələ item yoxdur': 'Henüz eşya yok', 'Hələ favori yoxdur': 'Henüz favori yok', 'Heç bir item tapılmadı': 'Eşya bulunamadı', '© 2026 MM2 Vault • Made for Roblox Players': '© 2026 MM2 Vault • Roblox oyuncuları için'
+  tr: {
+    home:'Ana Sayfa', trade:'Trade', favorites:'Favoriler', admin:'Admin', language:'Dil', search:'Eşya ara...', back:'Geri dön', login:'Google ile giriş', logout:'Çıkış', discord:'Discorda katıl', tiktok:'TikTok', youtube:'YouTube',
+    categories:'Tüm kategoriler', sort:'Sırala', all:'Tüm eşyalar', top:'En değerli eşyalar', market:'Pazar', trending:'Şimdi neler trend?', live:'Pazar aktif', pulse:'PAZAR NABZI', pulseText:'Değer değişiklikleri izleniyor',
+    value:'Değer', demand:'Talep', favoritesCount:'Favoriler', liveValues:'Canlı değerler', checkValues:'Değerleri hızlıca kontrol et', popular:'Popüler eşyaları gör', saveFavorites:'Sevdiklerini kaydet',
+    tradeCalc:'Trade Hesaplayıcı', discover:'Eşyaları keşfet', madeFor:'Roblox oyuncuları için', detail:'Eşya Detayı', details:'Eşya hakkında tüm bilgiler', waiting:'Trade bekleniyor...', selected:'Seçilenler', clear:'Temizle', saveTrade:'Trade kaydet', history:'Trade geçmişi',
+    win:'WIN', fair:'FAIR', lose:'LOSE', noFav:'Henüz favori yok', noFavText:'Eşyaları ana sayfadan favorilere ekleyebilirsin.', homeBack:'Ana sayfaya dön',
+    adminLogin:'Admin girişi', adminOnly:'Yalnızca onaylı Google hesabıyla giriş yapabilirsiniz.', addItem:'Yeni eşya ekle', edit:'Düzenle', delete:'Sil', allItems:'Tüm eşyalar', allCategories:'Tüm kategoriler', ai:'AI değer yardımcısı', analyze:'Değerleri analiz et', seed:'Mevcut eşyaları cloud’a aktar',
+    loading:'Yükleniyor...', loadingDetails:'Detay yükleniyor...', loadingTrade:'Trade yükleniyor...', loadingAdmin:'Admin yükleniyor...', notFound:'Eşya bulunamadı', noItems:'Hiç eşya bulunamadı', clearHistory:'Geçmişi temizle', valueHigh:'Değer: yüksek → düşük', valueLow:'Değer: düşük → yüksek', demandSort:'Talep', azSort:'A → Z', zaSort:'Z → A',
+    title:'MM2 Vault — Trade Değerleri', hero:'Trade değerini bir bakışta bul.', heroText:'MM2 eşyalarını ara, değerini kontrol et, talebi karşılaştır ve trade kararını daha kolay ver.'
   },
-  'en': {
-    'Trade Values & Item Archive': 'Trade Values & Item Archive', 'MM2 Vault yüklənir...': 'MM2 Vault loading...', 'Favorites': 'Favorites', 'Favori': 'Favorite', 'Favorilər': 'Favorites', 'Seçdiyin MM2 itemləri': 'Your MM2 items', 'Detay yüklənir...': 'Loading details...', 'Trade yüklənir...': 'Loading trade...', 'Trade dəyərini hesabla': 'Calculate trade value', 'Item Detay': 'Item Details', 'Əşya haqqında tam məlumat': 'Complete item information', 'Geri Dön': 'Back', 'Bütün Kateqoriyalar': 'All Categories', 'Sırala': 'Sort', 'Dəyər (Yüksək → Aşağı)': 'Value (High → Low)', 'Dəyər (Aşağı → Yüksək)': 'Value (Low → High)', 'Tələb': 'Demand', 'Sən Verirsən': 'You Give', 'Qarşı Tərəf': 'Other Side', 'Liste': 'List', 'Seçilənlər': 'Selected', 'Dəyər:': 'Value:', 'Trade gözləyir...': 'Waiting for trade...', 'Trade tarixçəsi': 'Trade history', 'Təmizlə': 'Clear', 'Trade-i yadda saxla': 'Save trade', 'Admin yüklənir...': 'Loading admin...', 'Item idarəetmə paneli': 'Item management panel', 'Admin girişi': 'Admin login', 'Yalnız təsdiqlənmiş Google hesabı ilə daxil ola bilərsiniz.': 'Only approved Google accounts can sign in.', 'Yeni item əlavə et': 'Add new item', 'Düzəlt': 'Edit', 'Sil': 'Delete', 'Bütün itemlər': 'All items', 'Bütün kateqoriyalar': 'All categories', 'AI dəyər köməkçisi': 'AI value assistant', 'Dəyərləri analiz et': 'Analyze values', 'MM2Values dəyişikliklərini aç': 'Open MM2Values changes', '📦 Mövcud itemləri cloud-a köçür': '📦 Move existing items to cloud', 'Dəyər tarixçəsi': 'Value history', 'Hələ item yoxdur': 'No items yet', 'Hələ favori yoxdur': 'No favorites yet', 'Heç bir item tapılmadı': 'No items found', '© 2026 MM2 Vault • Made for Roblox Players': '© 2026 MM2 Vault • For Roblox players'
+  en: {
+    home:'Home', trade:'Trade', favorites:'Favorites', admin:'Admin', language:'Language', search:'Search item...', back:'Back', login:'Sign in with Google', logout:'Sign out', discord:'Join Discord', tiktok:'TikTok', youtube:'YouTube',
+    categories:'All categories', sort:'Sort', all:'All items', top:'Top items', market:'Market', trending:"What's trending?", live:'Market live', pulse:'MARKET PULSE', pulseText:'Tracking value changes',
+    value:'Value', demand:'Demand', favoritesCount:'Favorites', liveValues:'Live values', checkValues:'Check values quickly', popular:'See popular items', saveFavorites:'Save favorites',
+    tradeCalc:'Trade Calculator', discover:'Discover items', madeFor:'Made for Roblox players', detail:'Item Details', details:'Complete item information', waiting:'Waiting for trade...', selected:'Selected', clear:'Clear', saveTrade:'Save trade', history:'Trade history',
+    win:'WIN', fair:'FAIR', lose:'LOSE', noFav:'No favorites yet', noFavText:'Add items to favorites from the home page.', homeBack:'Back to home',
+    adminLogin:'Admin login', adminOnly:'Only approved Google accounts can sign in.', addItem:'Add new item', edit:'Edit', delete:'Delete', allItems:'All items', allCategories:'All categories', ai:'AI value assistant', analyze:'Analyze values', seed:'Move existing items to cloud',
+    loading:'Loading...', loadingDetails:'Loading details...', loadingTrade:'Loading trade...', loadingAdmin:'Loading admin...', notFound:'Item not found', noItems:'No items found', clearHistory:'Clear history', valueHigh:'Value: high → low', valueLow:'Value: low → high', demandSort:'Demand', azSort:'A → Z', zaSort:'Z → A',
+    title:'MM2 Vault — Trade Values', hero:'Find trade value at a glance.', heroText:'Search MM2 items, check values, compare demand and make trade decisions more easily.'
+  },
+  ru: {
+    home:'Главная', trade:'Трейд', favorites:'Избранное', admin:'Админ', language:'Язык', search:'Поиск предмета...', back:'Назад', login:'Войти через Google', logout:'Выйти', discord:'Войти в Discord', tiktok:'TikTok', youtube:'YouTube',
+    categories:'Все категории', sort:'Сортировка', all:'Все предметы', top:'Самые ценные предметы', market:'Рынок', trending:'Что сейчас в тренде?', live:'Рынок активен', pulse:'ОБЗОР РЫНКА', pulseText:'Отслеживаем изменения цен',
+    value:'Цена', demand:'Спрос', favoritesCount:'Избранное', liveValues:'Актуальные цены', checkValues:'Быстрая проверка цен', popular:'Популярные предметы', saveFavorites:'Сохраняйте любимое',
+    tradeCalc:'Калькулятор трейда', discover:'Исследовать предметы', madeFor:'Для игроков Roblox', detail:'Детали предмета', details:'Полная информация о предмете', waiting:'Ожидание трейда...', selected:'Выбрано', clear:'Очистить', saveTrade:'Сохранить трейд', history:'История трейдов',
+    win:'ВЫИГРЫШ', fair:'РАВНО', lose:'ПРОИГРЫШ', noFav:'Избранного пока нет', noFavText:'Добавьте предметы в избранное на главной странице.', homeBack:'На главную',
+    adminLogin:'Вход администратора', adminOnly:'Войти могут только одобренные аккаунты Google.', addItem:'Добавить предмет', edit:'Изменить', delete:'Удалить', allItems:'Все предметы', allCategories:'Все категории', ai:'AI-помощник цен', analyze:'Анализировать цены', seed:'Перенести предметы в облако',
+    loading:'Загрузка...', loadingDetails:'Загрузка деталей...', loadingTrade:'Загрузка трейда...', loadingAdmin:'Загрузка админки...', notFound:'Предмет не найден', noItems:'Предметы не найдены', clearHistory:'Очистить историю', valueHigh:'Цена: по убыванию', valueLow:'Цена: по возрастанию', demandSort:'Спрос', azSort:'А → Я', zaSort:'Я → А',
+    title:'MM2 Vault — Ценности трейда', hero:'Узнай ценность трейда с первого взгляда.', heroText:'Ищите предметы MM2, проверяйте цены, сравнивайте спрос и принимайте решения по трейду проще.'
   }
 };
 
-function applyLanguage(language) {
-  const text = MM2_TRANSLATIONS[language] || MM2_TRANSLATIONS.az;
-  const staticText = MM2_STATIC_TRANSLATIONS[language] || MM2_STATIC_TRANSLATIONS.az;
-  document.documentElement.lang = language;
-  document.querySelectorAll('[data-i18n]').forEach(element => {
-    const key = element.dataset.i18n;
-    if (text[key]) element.textContent = text[key];
-  });
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
-    const key = element.dataset.i18nPlaceholder;
-    if (text[key]) element.placeholder = text[key];
-  });
-  document.querySelectorAll('[data-i18n-title]').forEach(element => {
-    const key = element.dataset.i18nTitle;
-    if (text[key]) element.title = text[key];
-  });
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-  const nodes = [];
-  while (walker.nextNode()) nodes.push(walker.currentNode);
-  const allStatic = Object.values(MM2_STATIC_TRANSLATIONS);
-  nodes.forEach(node => {
-    const parent = node.parentElement;
-    const value = node.nodeValue.trim();
-    if (!value || ['SCRIPT', 'STYLE', 'TEXTAREA'].includes(parent?.tagName)) return;
-    const sourceKey = Object.keys(staticText).find(key => key === value || allStatic.some(dictionary => dictionary[key] === value));
-    if (sourceKey && staticText[sourceKey]) node.nodeValue = node.nodeValue.replace(value, staticText[sourceKey]);
-  });
-  document.title = language === 'en' ? 'MM2 Vault - Trade Values' : language === 'tr' ? 'MM2 Vault - Trade Değerleri' : 'MM2 Vault - Trade Dəyərləri';
+function lang(){ return localStorage.getItem('mm2_language') || 'az'; }
+function tr(key){ return (T[lang()] && T[lang()][key]) || T.az[key] || key; }
+window.mm2t = tr;
+window.mm2Language = () => lang();
+
+function applyLanguage(language){
+  if(!MM2_LANGUAGES[language]) language='az';
   localStorage.setItem('mm2_language', language);
+  document.documentElement.lang=language;
+  document.title=tr('title');
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.dataset.i18n; if(T[language][k]) el.textContent=T[language][k]; });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{ const k=el.dataset.i18nPlaceholder; if(T[language][k]) el.placeholder=T[language][k]; });
+  document.querySelectorAll('[data-i18n-title]').forEach(el=>{ const k=el.dataset.i18nTitle; if(T[language][k]) el.title=T[language][k]; });
+  document.querySelectorAll('[data-i18n-value]').forEach(el=>{ const k=el.dataset.i18nValue; if(T[language][k]) el.value=T[language][k]; });
+  document.querySelectorAll('option[data-i18n]').forEach(el=>{ const k=el.dataset.i18n; if(T[language][k]) el.textContent=T[language][k]; });
+  const select=document.querySelector('.language-picker select');
+  if(select) select.value=language;
+  document.querySelectorAll('[data-lang-text]').forEach(el=>el.textContent=T[language][el.dataset.langText]||el.textContent);
+  window.dispatchEvent(new CustomEvent('mm2:languagechange',{detail:{language}}));
 }
 
-function installLanguagePicker() {
-  const header = document.querySelector('header');
-  if (!header || header.querySelector('.language-picker')) return;
-  const picker = document.createElement('label');
-  picker.className = 'language-picker';
-  picker.innerHTML = `<span>🌐</span><select aria-label="Language"><option value="az">AZ</option><option value="tr">TR</option><option value="en">EN</option></select>`;
-  header.appendChild(picker);
-  const select = picker.querySelector('select');
-  select.value = localStorage.getItem('mm2_language') || 'az';
-  select.addEventListener('change', event => applyLanguage(event.target.value));
-  applyLanguage(select.value);
+function installLanguagePicker(){
+  const header=document.querySelector('header');
+  if(!header || header.querySelector('.language-picker')) return;
+  const picker=document.createElement('label');
+  picker.className='language-picker';
+  picker.setAttribute('aria-label',tr('language'));
+  picker.innerHTML='<span class="language-globe" aria-hidden="true">◎</span><select aria-label="Language"><option value="az">AZ — Azərbaycan</option><option value="tr">TR — Türkçe</option><option value="en">EN — English</option><option value="ru">RU — Русский</option></select>';
+  (header.querySelector('.header-inner') || header).appendChild(picker);
+  picker.querySelector('select').addEventListener('change',e=>applyLanguage(e.target.value));
+  applyLanguage(lang());
 }
-
-document.addEventListener('DOMContentLoaded', installLanguagePicker);
+document.addEventListener('DOMContentLoaded',installLanguagePicker);
