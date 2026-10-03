@@ -29,7 +29,7 @@ function renderAdminItems(snapshot) {
   const category = adminCategory?.value || 'all';
   const visibleItems = adminItemCache.filter(item => item.name.toLowerCase().includes(search) && (category === 'all' || item.category === category));
   adminItems.innerHTML = visibleItems.map(item => {
-    return `<article class="admin-item"><img src="${item.image || 'default.png'}" alt="${item.name}" onerror="this.src='default.png'"><div><strong>${item.name}</strong><span>${item.category} · ${item.value} value · ${item.year}</span></div><div class="admin-actions"><button class="edit-item" data-id="${item.id}">Düzəlt</button><button class="delete-item" data-id="${item.id}">Sil</button></div></article>`;
+    return `<article class="admin-item"><img src="${item.image || 'default.svg'}" alt="${item.name}" onerror="this.src='default.svg'"><div><strong>${item.name}</strong><span>${item.category} · ${item.value} value · ${item.year}</span></div><div class="admin-actions"><button class="edit-item" data-id="${item.id}">Düzəlt</button><button class="delete-item" data-id="${item.id}">Sil</button></div></article>`;
   }).join('');
   adminItems.querySelectorAll('.delete-item').forEach(button => button.addEventListener('click', async () => {
     if (!window.confirm('Bu item silinsin?')) return;
