@@ -1148,3 +1148,59 @@ img{max-width:100%;}
 .menu-toggle{position:fixed;left:16px;top:16px;z-index:10001;width:44px;height:44px;border:1px solid var(--border-color);border-radius:13px;background:rgba(10,14,23,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer}.menu-toggle span{width:19px;height:2px;background:#fff;border-radius:3px}.side-menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9998;opacity:0;visibility:hidden;transition:.3s}.side-menu-overlay.open{opacity:1;visibility:visible}.side-menu{position:fixed;left:0;top:0;bottom:0;width:min(330px,88vw);z-index:9999;background:#0d1424;border-right:1px solid rgba(168,85,247,.25);box-shadow:20px 0 60px rgba(0,0,0,.5);transform:translateX(-105%);transition:transform .35s ease;padding:24px 16px}.side-menu.open{transform:translateX(0)}.side-menu-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid var(--border-color);color:#fff}.side-menu-head button{width:38px;height:38px;border:0;border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font-size:24px}.side-menu-nav{display:flex;flex-direction:column;gap:6px;padding-top:20px}.side-menu-nav a{display:block;padding:14px;border-radius:12px;color:var(--text-secondary);text-decoration:none;font-weight:700}.side-menu-nav a:hover{background:rgba(124,58,237,.15);color:#fff}.vault-header{padding-left:78px}body.menu-open{overflow:hidden}@media(max-width:700px){.vault-header{padding-left:60px}.menu-toggle{left:9px;top:9px;width:40px;height:40px}.side-menu{width:min(310px,90vw)}}
 
 .menu-check{position:absolute;opacity:0;pointer-events:none}.menu-check:checked~.side-menu{transform:translateX(0)}.menu-check:checked~.side-menu-overlay{opacity:1;visibility:visible}.menu-close{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font-size:24px;display:grid;place-items:center;cursor:pointer}.menu-toggle{cursor:pointer}.side-menu{transition:transform .35s cubic-bezier(.22,.61,.36,1)}
+
+/* ---------- PREPARED LOGO ---------- */
+.brand-symbol.logo-image{
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+}
+.brand-symbol.logo-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.side-menu-brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  min-width:0;
+}
+.side-menu-brand img{
+  width:38px;
+  height:38px;
+  object-fit:cover;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.1);
+  flex:none;
+}
+.vault-orb{
+  overflow:hidden;
+}
+.vault-orb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  border-radius:inherit;
+}
+.loader-orb{
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  border-radius:28px;
+}
+.loader-orb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  border-radius:inherit;
+}
+@media(max-width:700px){
+  .brand-symbol.logo-image{width:38px;height:38px;}
+  .side-menu-brand img{width:34px;height:34px;}
+}
