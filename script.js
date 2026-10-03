@@ -74,10 +74,10 @@ function toggleFavorite(id) {
   const index = favorites.indexOf(id);
   if (index > -1) {
     favorites.splice(index, 1);
-    showToast('💔 Favorilərdən çıxarıldı', 'error');
+    showToast('Favorilərdən çıxarıldı', 'error');
   } else {
     favorites.push(id);
-    showToast('⭐ Favorilərə əlavə edildi', 'success');
+    showToast('Favorilərə əlavə edildi', 'success');
   }
   localStorage.setItem('mm2_favorites', JSON.stringify(favorites));
   updateStats();
@@ -91,7 +91,7 @@ function renderCards(itemsToRender, container) {
   if (!itemsToRender || itemsToRender.length === 0) {
     container.innerHTML = `
       <div class="empty-state">
-        <div class="icon">🔍</div>
+        <div class="icon"></div>
         <p>Heç bir item tapılmadı</p>
         <small style="color:var(--text-muted)">Axtarış və ya filtr parametrlərini dəyişin</small>
       </div>
@@ -104,13 +104,13 @@ function renderCards(itemsToRender, container) {
     return `
       <div class="card rarity-${item.category}" data-id="${item.id}">
         <button class="fav-btn ${fav ? 'active' : ''}" data-id="${item.id}" aria-label="Favori">
-          ${fav ? '❤️' : '🤍'}
+          ${fav ? '★' : '☆'}
         </button>
         <img src="${item.image || 'default.png'}" alt="${item.name}" loading="lazy" onerror="this.src='default.png'" />
         <h3>${item.name}</h3>
-        <div class="value">💰 ${formatValue(item.value)}</div>
+        <div class="value">${formatValue(item.value)}</div>
         <div class="category">${item.category}</div>
-        <div class="demand">🔥 Tələb: ${item.demand}/10</div>
+        <div class="demand">Demand ${item.demand}/10</div>
       </div>
     `;
   }).join('');
@@ -167,6 +167,9 @@ function filterAndSort() {
   }
 
   renderCards(filteredItems, itemsContainer);
+  const resultLabel = document.getElementById('resultLabel');
+  if (resultLabel) resultLabel.textContent = `${filteredItems.length} item`;
+
 }
 
 // ---------- TOP ITEMS ----------
@@ -186,7 +189,7 @@ function renderTopItems() {
     <div class="card rarity-${item.category}" data-id="${item.id}" style="cursor:pointer;">
       <img src="${item.image || 'default.png'}" alt="${item.name}" loading="lazy" onerror="this.src='default.png'" />
       <h3>${item.name}</h3>
-      <div class="value">💰 ${formatValue(item.value)}</div>
+      <div class="value">${formatValue(item.value)}</div>
       <div class="category">${item.category}</div>
     </div>
   `).join('');
