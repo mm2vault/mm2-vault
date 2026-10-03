@@ -1,10 +1,23 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
     match /items/{itemId} {
       allow read: if true;
-      allow create, update, delete: if request.auth != null
-        && request.auth.token.email == 'mm2ultimatehub@gmail.com';
+      allow create, update, delete: if request.auth != null && request.auth.token.email == 'mm2ultimatehub@gmail.com';
+    }
+    match /users/{userId} {
+      allow read, create, update, delete: if request.auth != null && request.auth.uid == userId;
+    }
+    match /favorites/{userId} {
+      allow read, create, update, delete: if request.auth != null && request.auth.uid == userId;
+    }
+    match /trades/{tradeId} {
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow read, update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
