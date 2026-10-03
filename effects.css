@@ -1,0 +1,39 @@
+/* MM2 Vault premium motion layer */
+:root{--motion-ease:cubic-bezier(.2,.8,.2,1)}
+html{scroll-behavior:smooth}
+body{background-image:radial-gradient(circle at 10% 0%,rgba(124,58,237,.10),transparent 28%),radial-gradient(circle at 90% 12%,rgba(37,99,235,.08),transparent 26%)}
+.vault-header{transition:background .35s ease,box-shadow .35s ease,backdrop-filter .35s ease}
+.vault-header.scrolled{background:rgba(7,10,20,.88);box-shadow:0 12px 40px rgba(0,0,0,.28);backdrop-filter:blur(18px)}
+.vault-brand,.vault-nav a,.login-button,.hero-primary,.hero-secondary,.item-card,.feature-card,.market-card,.floating-item{transition:transform .3s var(--motion-ease),border-color .3s ease,box-shadow .3s ease,background .3s ease}
+.vault-brand:hover{transform:translateY(-2px)}
+.vault-nav a:hover{transform:translateY(-2px)}
+.login-button:hover,.hero-primary:hover,.hero-secondary:hover{transform:translateY(-3px);box-shadow:0 14px 35px rgba(124,58,237,.22)}
+.hero-art{animation:heroFloat 7s ease-in-out infinite}
+.art-ring{animation:ringSpin 18s linear infinite}
+.ring-two{animation-direction:reverse;animation-duration:24s}
+.floating-item{animation:itemFloat 4s ease-in-out infinite}
+.item-two{animation-delay:-1.7s}.item-three{animation-delay:-2.8s}
+.live-dot{animation:pulseDot 1.8s ease-out infinite}
+.item-card:hover,.feature-card:hover,.market-card:hover{transform:translateY(-7px);box-shadow:0 20px 50px rgba(0,0,0,.3);border-color:rgba(167,139,250,.28)}
+.item-card:hover img{transform:scale(1.06)}
+.item-card img{transition:transform .5s var(--motion-ease)}
+section{animation:sectionReveal .7s both}
+.vault-hero{animation:heroReveal .8s both}
+.hero-copy>*{animation:fadeUp .7s both}.hero-copy>*:nth-child(2){animation-delay:.08s}.hero-copy>*:nth-child(3){animation-delay:.16s}.hero-copy>*:nth-child(4){animation-delay:.24s}
+button,a{touch-action:manipulation}
+::selection{background:rgba(124,58,237,.45);color:#fff}
+#loader{transition:opacity .45s ease,visibility .45s ease}
+#loader.hidden{opacity:0;visibility:hidden}
+.loader-orb{animation:loaderPulse 1.8s ease-in-out infinite}
+.loader-spinner{animation:spin 1s linear infinite}
+@keyframes heroFloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-12px) rotate(1deg)}}
+@keyframes ringSpin{to{transform:rotate(360deg)}}
+@keyframes itemFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+@keyframes pulseDot{0%{box-shadow:0 0 0 0 rgba(74,222,128,.55)}70%{box-shadow:0 0 0 10px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
+@keyframes sectionReveal{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes heroReveal{from{opacity:0;transform:translateY(16px) scale(.99)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes loaderPulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(124,58,237,.25)}50%{transform:scale(1.04);box-shadow:0 0 0 18px rgba(124,58,237,0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:700px){.vault-hero{min-height:unset}.hero-art{opacity:.78;transform:scale(.86)}.item-card:hover,.feature-card:hover,.market-card:hover{transform:translateY(-3px)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
