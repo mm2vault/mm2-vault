@@ -74,10 +74,10 @@ function toggleFavorite(id) {
   const index = favorites.indexOf(id);
   if (index > -1) {
     favorites.splice(index, 1);
-    showToast('${mm2t ? mm2t('favorites') : 'Favorilərdən çıxarıldı'}', 'error');
+    showToast(mm2t('favorites'), 'error');
   } else {
     favorites.push(id);
-    showToast('${mm2t ? mm2t('favorites') : 'Favorilərə əlavə edildi'}', 'success');
+    showToast(mm2t('favorites'), 'success');
   }
   localStorage.setItem('mm2_favorites', JSON.stringify(favorites));
   updateStats();
@@ -181,7 +181,7 @@ function renderTopItems() {
     .slice(0, 6);
 
   if (top.length === 0) {
-    topItemsContainer.innerHTML = '<p style="color:var(--text-muted)">${mm2t ? mm2t('noItems') : 'Hələ item yoxdur'}</p>';
+    topItemsContainer.innerHTML = `<p style="color:var(--text-muted)">${mm2t('noItems')}</p>`;
     return;
   }
 
