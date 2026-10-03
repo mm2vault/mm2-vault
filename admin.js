@@ -93,8 +93,11 @@ async function seedJsonItems() {
   const usedIds = new Set();
   const batch = firebaseDb.batch();
   sourceItems.forEach((item, index) => {
-    const baseId = item.id || item.name.toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
-    const id = usedIds.has(baseId) ? `${baseId}_${index + 1}` : baseId;
+    const raw = String(item?.id || '').trim();
+    const baseId = raw || String(item?.name || 'item').toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '') || 'item_' + (index + 1);
+    let id = baseId;
+    let n = 2;
+    while (usedIds.has(id)) id = baseId + '_' + n++;
     usedIds.add(id);
     batch.set(firebaseDb.collection('items').doc(id), { ...item, id });
   });
