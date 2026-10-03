@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="MM2 Vault">
+<defs>
+<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#2563eb"/></linearGradient>
+<filter id="s" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#000" flood-opacity=".45"/></filter>
+</defs>
+<rect width="160" height="160" rx="32" fill="#0a0e17"/>
+<circle cx="80" cy="80" r="58" fill="url(#g)" filter="url(#s)"/>
+<circle cx="80" cy="80" r="43" fill="#111827" opacity=".55"/>
+<path d="M51 61h58v14H51zm8 21h42v14H59z" fill="#fff" opacity=".92"/>
+<text x="80" y="128" text-anchor="middle" fill="#c4b5fd" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2">MM2 VAULT</text>
+</svg>
