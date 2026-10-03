@@ -30,7 +30,7 @@ function renderFavorites() {
   if (!container) return;
 
   if (!favoriteItems.length) {
-    container.innerHTML = '<div class="empty-state"><div class="icon">💔</div><h2>Hələ favori yoxdur</h2><p>Itemləri ana səhifədən favorilərə əlavə edə bilərsiniz.</p><a href="index.html" class="back-btn">🏠 Ana Səhifəyə dön</a></div>';
+    container.innerHTML = '<div class="empty-state"><div class="icon">💔</div><h2>${mm2t ? mm2t('noFav') : 'Hələ favori yoxdur'}</h2><p>Itemləri ana səhifədən favorilərə əlavə edə bilərsiniz.</p><a href="index.html" class="back-btn">🏠 Ana Səhifəyə dön</a></div>';
     return;
   }
 
@@ -49,7 +49,7 @@ function renderFavorites() {
     event.stopPropagation();
     favorites = favorites.filter(id => id !== button.dataset.id);
     localStorage.setItem('mm2_favorites', JSON.stringify(favorites));
-    showToast('💔 Favorilərdən çıxarıldı', 'error');
+    showToast('💔 ${mm2t ? mm2t('favorites') : 'Favorilərdən çıxarıldı'}', 'error');
     renderFavorites();
   }));
 }
