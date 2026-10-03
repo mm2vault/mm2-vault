@@ -79,7 +79,7 @@ function renderResults(searchTerm, container, selectedItems, type) {
 
   container.innerHTML = filtered.slice(0, 30).map(item => `
     <div class="item" data-id="${item.id}">
-      <img src="${item.image || 'default.png'}" alt="${item.name}" onerror="this.src='default.png'" />
+      <img src="${item.image || 'default.svg'}" alt="${item.name}" onerror="this.src='default.svg'" />
       <div class="meta">
         <h4>${item.name}</h4>
         <p>💰 ${item.value} • ${item.category || ''}</p>
@@ -123,7 +123,7 @@ function renderSelected(type) {
 
   container.innerHTML = itemsList.map((item, index) => `
     <div class="trade-item">
-      <img src="${item.image || 'default.png'}" alt="${item.name}" onerror="this.src='default.png'" />
+      <img src="${item.image || 'default.svg'}" alt="${item.name}" onerror="this.src='default.svg'" />
       <span style="flex:1;">${item.name}</span>
       <span style="color:var(--gold);font-weight:700;">💰 ${item.value}</span>
       <button onclick="removeItem('${type}', ${index})">✕</button>
@@ -220,7 +220,7 @@ window.toggleGiveList = function() {
   }
   giveResults.innerHTML = allItems.map(item => `
     <div class="item" data-id="${item.id}">
-      <img src="${item.image || 'default.png'}" alt="${item.name}" onerror="this.src='default.png'" />
+      <img src="${item.image || 'default.svg'}" alt="${item.name}" onerror="this.src='default.svg'" />
       <div class="meta">
         <h4>${item.name}</h4>
         <p>💰 ${item.value} • ${item.category || ''}</p>
@@ -250,7 +250,7 @@ window.toggleTakeList = function() {
   }
   takeResults.innerHTML = allItems.map(item => `
     <div class="item" data-id="${item.id}">
-      <img src="${item.image || 'default.png'}" alt="${item.name}" onerror="this.src='default.png'" />
+      <img src="${item.image || 'default.svg'}" alt="${item.name}" onerror="this.src='default.svg'" />
       <div class="meta">
         <h4>${item.name}</h4>
         <p>💰 ${item.value} • ${item.category || ''}</p>
