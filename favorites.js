@@ -6,11 +6,15 @@ const loader = document.getElementById('loader');
 const toast = document.getElementById('toast');
 
 function normalizeItems(data) {
-  const usedIds = new Set();
-  return (data.items || data || []).map((item, index) => {
-    const baseId = item.id || item.name.toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
-    const id = usedIds.has(baseId) ? `${baseId}_${index + 1}` : baseId;
-    usedIds.add(id);
+  const list = Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : []);
+  const seen = new Set();
+  return list.map((item, index) => {
+    const raw = String(item?.id || '').trim();
+    const base = raw || String(item?.name || 'item').toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '') || 'item_' + (index + 1);
+    let id = base;
+    let n = 2;
+    while (seen.has(id)) id = base + '_' + n++;
+    seen.add(id);
     return { ...item, id };
   });
 }
