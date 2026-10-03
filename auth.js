@@ -1,46 +1,14 @@
-const MM2_ADMIN_EMAIL = 'mm2ultimatehub@gmail.com';
-
-function isMm2Admin(user) {
-  return Boolean(user?.email && user.email.toLowerCase() === MM2_ADMIN_EMAIL);
-}
-
-function startGoogleLogin({ button, status, onSuccess } = {}) {
-  if (!window.firebaseAuth) return;
-  if (button) {
-    button.disabled = true;
-    button.textContent = '⏳ Google yoxlanılır...';
-  }
-  if (status) status.textContent = 'Google hesabı təsdiqlənir...';
-  const provider = new firebase.auth.GoogleAuthProvider();
-  provider.setCustomParameters({ prompt: 'select_account' });
-  window.firebaseAuth.signInWithPopup(provider).then(userCredential => {
-    if (typeof onSuccess === 'function') onSuccess(userCredential.user);
-  }).catch(error => {
-    if (status) status.textContent = error.code === 'auth/popup-blocked' ? 'Popup bloklandı. Brauzerdə popup-a icazə ver.' : error.code === 'auth/popup-closed-by-user' ? 'Giriş pəncərəsi bağlandı.' : `Giriş alınmadı: ${error.message}`;
-    if (button) {
-      button.disabled = false;
-      button.textContent = '🔐 Google ilə giriş';
-    }
-  });
-}
-
-function installHomeAuth() {
-  const button = document.getElementById('homeGoogleLogin');
-  const status = document.getElementById('homeAuthStatus');
-  const account = document.getElementById('homeAccount');
-  if (!button || !window.firebaseAuth) return;
-  window.firebaseAuth.onAuthStateChanged(user => {
-    if (!user) {
-      button.classList.remove('hidden');
-      account?.classList.add('hidden');
-      return;
-    }
-    button.classList.add('hidden');
-    account?.classList.remove('hidden');
-    if (account) account.innerHTML = `<span>✅ ${user.email}</span>${isMm2Admin(user) ? '<a href="admin.html">🛠️ Admin paneli</a>' : ''}<button id="homeLogout" class="auth-mini-button">Çıxış</button>`;
-    document.getElementById('homeLogout')?.addEventListener('click', () => window.firebaseAuth.signOut());
-  });
-  button.addEventListener('click', () => startGoogleLogin({ button, status }));
-}
-
-document.addEventListener('DOMContentLoaded', installHomeAuth);
+const MM2_ADMIN_EMAIL='mm2ultimatehub@gmail.com';
+let authMode='login';
+function isMm2Admin(user){return Boolean(user?.email&&user.email.toLowerCase()===MM2_ADMIN_EMAIL)}
+function authError(e){const m={'auth/email-already-in-use':'Bu e-poçt artıq istifadə olunur.','auth/invalid-email':'E-poçt ünvanı düzgün deyil.','auth/weak-password':'Şifrə ən azı 6 simvol olmalıdır.','auth/user-not-found':'Bu hesab tapılmadı.','auth/wrong-password':'Şifrə yanlışdır.','auth/invalid-credential':'E-poçt və ya şifrə yanlışdır.','auth/popup-blocked':'Popup bloklandı.','auth/popup-closed-by-user':'Giriş pəncərəsi bağlandı.'};return m[e.code]||e.message||'Giriş zamanı xəta baş verdi.'}
+async function saveUser(user,extra={}){if(!window.firebaseDb||!user)return;const ref=window.firebaseDb.collection('users').doc(user.uid);const old=await ref.get();const data={uid:user.uid,email:user.email||'',displayName:extra.username||user.displayName||user.email?.split('@')[0]||'MM2 User',username:extra.username||user.displayName||user.email?.split('@')[0]||'MM2 User',updatedAt:firebase.firestore.FieldValue.serverTimestamp()};if(!old.exists)data.createdAt=firebase.firestore.FieldValue.serverTimestamp();await ref.set(data,{merge:true})}
+function makeAuthModal(){if(document.getElementById('authModal'))return;const d=document.createElement('div');d.id='authModal';d.className='auth-modal hidden';d.innerHTML='<div class="auth-box"><button class="auth-close" id="authClose">×</button><div class="auth-title" id="authTitle">Giriş et</div><div class="auth-subtitle" id="authSubtitle">MM2 Vault hesabına daxil ol.</div><button class="auth-google" id="authGoogle">Google ilə davam et</button><div class="auth-divider">və ya</div><div class="auth-field" id="authUsernameWrap"><label>İstifadəçi adı</label><input id="authUsername" maxlength="24" autocomplete="username"></div><div class="auth-field"><label>E-poçt</label><input id="authEmail" type="email" autocomplete="email"></div><div class="auth-field"><label>Şifrə</label><input id="authPassword" type="password" minlength="6" autocomplete="current-password"></div><div class="auth-message" id="authMessage"></div><button class="auth-submit" id="authSubmit">Giriş et</button><div style="text-align:center;margin-top:12px"><button class="auth-forgot" id="authForgot">Şifrəni unutdum</button></div><div class="auth-footer"><span id="authSwitchText">Hesabın yoxdur?</span> <button class="auth-switch" id="authSwitch">Qeydiyyatdan keç</button></div></div>';document.body.appendChild(d);document.getElementById('authClose').onclick=closeAuth;d.addEventListener('click',e=>{if(e.target===d)closeAuth()});document.getElementById('authGoogle').onclick=googleLogin;document.getElementById('authSubmit').onclick=emailAuth;document.getElementById('authForgot').onclick=forgotPassword;document.getElementById('authSwitch').onclick=()=>setAuthMode(authMode==='login'?'register':'login')}
+function setAuthMode(mode){authMode=mode;const reg=mode==='register';document.getElementById('authTitle').textContent=reg?'Qeydiyyatdan keç':'Giriş et';document.getElementById('authSubtitle').textContent=reg?'Yeni MM2 Vault hesabı yarat.':'MM2 Vault hesabına daxil ol.';document.getElementById('authUsernameWrap').style.display=reg?'grid':'none';document.getElementById('authSubmit').textContent=reg?'Hesab yarat':'Giriş et';document.getElementById('authForgot').style.display=reg?'none':'inline';document.getElementById('authSwitchText').textContent=reg?'Artıq hesabın var?':'Hesabın yoxdur?';document.getElementById('authSwitch').textContent=reg?'Giriş et':'Qeydiyyatdan keç';document.getElementById('authMessage').textContent=''}
+function openAuth(mode='login'){makeAuthModal();setAuthMode(mode);document.getElementById('authModal').classList.remove('hidden');setTimeout(()=>document.getElementById('authEmail')?.focus(),50)}
+function closeAuth(){document.getElementById('authModal')?.classList.add('hidden')}
+async function googleLogin(){const m=document.getElementById('authMessage');try{const p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({prompt:'select_account'});const r=await window.firebaseAuth.signInWithPopup(p);await saveUser(r.user);closeAuth()}catch(e){m.textContent=authError(e)}}
+async function emailAuth(){const email=document.getElementById('authEmail').value.trim(),password=document.getElementById('authPassword').value,username=document.getElementById('authUsername').value.trim(),m=document.getElementById('authMessage');if(!email||!password||(authMode==='register'&&!username)){m.textContent='Lazım olan sahələri doldur.';return}try{if(authMode==='register'){if(password.length<6){m.textContent='Şifrə ən azı 6 simvol olmalıdır.';return}const r=await window.firebaseAuth.createUserWithEmailAndPassword(email,password);await r.user.updateProfile({displayName:username});await saveUser(r.user,{username});closeAuth()}else{const r=await window.firebaseAuth.signInWithEmailAndPassword(email,password);await saveUser(r.user);closeAuth()}}catch(e){m.textContent=authError(e)}}
+async function forgotPassword(){const email=document.getElementById('authEmail').value.trim(),m=document.getElementById('authMessage');if(!email){m.textContent='Əvvəl e-poçtunu yaz.';return}try{await window.firebaseAuth.sendPasswordResetEmail(email);m.textContent='Şifrə yeniləmə e-poçtu göndərildi.'}catch(e){m.textContent=authError(e)}}
+function installHomeAuth(){const button=document.getElementById('homeGoogleLogin'),status=document.getElementById('homeAuthStatus'),account=document.getElementById('homeAccount');if(!button||!window.firebaseAuth)return;makeAuthModal();button.addEventListener('click',()=>openAuth());window.firebaseAuth.onAuthStateChanged(async user=>{if(!user){button.classList.remove('hidden');account?.classList.add('hidden');if(status)status.textContent='';return}try{await saveUser(user)}catch(e){}button.classList.add('hidden');account?.classList.remove('hidden');if(account)account.innerHTML='<a href="profile.html">👤 '+(user.displayName||user.email?.split('@')[0]||'Profil')+'</a>'+ (isMm2Admin(user)?'<a href="admin.html">🛠️ Admin</a>':'')+'<button id="homeLogout" class="auth-mini-button">Çıxış</button>';document.getElementById('homeLogout')?.addEventListener('click',()=>window.firebaseAuth.signOut())})}
+document.addEventListener('DOMContentLoaded',installHomeAuth);
