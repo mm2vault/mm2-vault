@@ -1120,3 +1120,26 @@ img{max-width:100%;}
     .market-shell{padding-bottom:max(100px,calc(90px + env(safe-area-inset-bottom)));}
   }
 }
+
+
+/* ===== MOBILE HEADER ACTIONS ===== */
+@media(max-width:700px){
+  .vault-header .header-inner{position:relative;padding-right:0;}
+  .vault-header .header-actions{display:flex;align-items:center;gap:6px;margin-left:auto;flex:none;}
+  .vault-header .login-button{width:40px;height:40px;padding:0;display:grid;place-items:center;border-radius:11px;font-size:0;}
+  .vault-header .login-button .nav-icon{margin:0;}
+  .vault-header .home-auth-status{display:none;}
+  .vault-header .home-account{display:none;}
+  .vault-header .language-picker{margin:0;padding:0;width:40px;height:40px;display:flex;justify-content:center;border-radius:11px;}
+  .vault-header .language-picker .language-globe{display:none;}
+  .vault-header .language-picker select{width:100%;height:100%;padding:0 2px;text-align:center;font-size:11px;max-width:none;appearance:auto;-webkit-appearance:auto;}
+  .vault-header .language-picker select option{font-size:14px;}
+  .vault-brand{flex:1;min-width:0;}
+  .vault-brand>span:last-child{white-space:nowrap;}
+}
+@media(max-width:390px){
+  .vault-header{padding:0 8px;}
+  .vault-brand .brand-symbol{width:35px;height:35px;}
+  .vault-brand>span:last-child{font-size:14px;}
+  .vault-header .login-button,.vault-header .language-picker{width:37px;height:37px;}
+}
