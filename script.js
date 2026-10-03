@@ -74,10 +74,10 @@ function toggleFavorite(id) {
   const index = favorites.indexOf(id);
   if (index > -1) {
     favorites.splice(index, 1);
-    showToast('Favorilərdən çıxarıldı', 'error');
+    showToast('${mm2t ? mm2t('favorites') : 'Favorilərdən çıxarıldı'}', 'error');
   } else {
     favorites.push(id);
-    showToast('Favorilərə əlavə edildi', 'success');
+    showToast('${mm2t ? mm2t('favorites') : 'Favorilərə əlavə edildi'}', 'success');
   }
   localStorage.setItem('mm2_favorites', JSON.stringify(favorites));
   updateStats();
@@ -92,7 +92,7 @@ function renderCards(itemsToRender, container) {
     container.innerHTML = `
       <div class="empty-state">
         <div class="icon"></div>
-        <p>Heç bir item tapılmadı</p>
+        <p>${mm2t ? mm2t('noItems') : 'Heç bir item tapılmadı'}</p>
         <small style="color:var(--text-muted)">Axtarış və ya filtr parametrlərini dəyişin</small>
       </div>
     `;
@@ -181,7 +181,7 @@ function renderTopItems() {
     .slice(0, 6);
 
   if (top.length === 0) {
-    topItemsContainer.innerHTML = '<p style="color:var(--text-muted)">Hələ item yoxdur</p>';
+    topItemsContainer.innerHTML = '<p style="color:var(--text-muted)">${mm2t ? mm2t('noItems') : 'Hələ item yoxdur'}</p>';
     return;
   }
 
