@@ -161,7 +161,7 @@ function updateTradeResult() {
   const take = getTradeMetrics(takeItems);
   if (!give.rawValue && !take.rawValue) {
     result.className = 'trade-result';
-    result.innerHTML = '<span class="trade-status-icon">↔</span><strong>Trade gözləyir...</strong><small>Hər iki tərəfdən item seç.</small>';
+    result.innerHTML = '<span class="trade-status-icon">↔</span><strong>${mm2t ? mm2t('waiting') : 'Trade gözləyir...'}</strong><small>Hər iki tərəfdən item seç.</small>';
     return;
   }
 
