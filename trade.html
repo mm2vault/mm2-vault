@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MM2 Vault - Trade Kalkulyatoru</title>
+  <title data-i18n="tradeCalc">MM2 Vault - Trade Kalkulyatoru</title>
   <link rel="icon" type="image/png" href="default.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -13,13 +13,13 @@
   <div id="loader">
     <div class="loader-icon">⚖️</div>
     <div class="loader-spinner"></div>
-    <div class="loader-text">Trade yüklənir...</div>
+    <div class="loader-text" data-i18n="loadingTrade">Trade yüklənir...</div>
   </div>
 
   <!-- HEADER -->
   <header>
-    <div class="logo"><span class="brand-mark">MM2</span> Trade</div>
-    <div class="logo-subtitle">Trade dəyərini hesabla</div>
+    <div class="logo"><span class="brand-mark">MM2</span> <span data-i18n="trade">Trade</span></div>
+    <div class="logo-subtitle" data-i18n="tradeCalc">Trade dəyərini hesabla</div>
 
     <nav>
       <a href="index.html" data-i18n="home">🏠 Ana Səhifə</a>
@@ -38,14 +38,14 @@
       <h2><span data-i18n="give">🔴 Sən Verirsən</span></h2>
       <div class="search-area">
         <input id="giveSearch" data-i18n-placeholder="search" placeholder="🔍 Item ara..." />
-        <button onclick="toggleGiveList()">📦 Liste</button>
+        <button onclick="toggleGiveList()">📦 <span data-i18n="all">Liste</span></button>
       </div>
       <div id="giveResults"></div>
       <div class="selected">
-        <h3 style="font-size:14px;color:var(--text-secondary);margin-bottom:8px;">Seçilənlər</h3>
+        <h3 style="font-size:14px;color:var(--text-secondary);margin-bottom:8px;" data-i18n="selected">Seçilənlər</h3>
         <div id="giveSelected"></div>
       </div>
-      <h3>💰 Dəyər: <span id="giveValue">0</span></h3>
+      <h3>💰 <span data-i18n="value">Dəyər</span>: <span id="giveValue">0</span></h3>
     </section>
 
     <!-- TAKE -->
@@ -53,27 +53,27 @@
       <h2><span data-i18n="take">🟢 Qarşı Tərəf</span></h2>
       <div class="search-area">
         <input id="takeSearch" data-i18n-placeholder="search" placeholder="🔍 Item ara..." />
-        <button onclick="toggleTakeList()">📦 Liste</button>
+        <button onclick="toggleTakeList()">📦 <span data-i18n="all">Liste</span></button>
       </div>
       <div id="takeResults"></div>
       <div class="selected">
         <h3 style="font-size:14px;color:var(--text-secondary);margin-bottom:8px;">Seçilənlər</h3>
         <div id="takeSelected"></div>
       </div>
-      <h3>💰 Dəyər: <span id="takeValue">0</span></h3>
+      <h3>💰 <span data-i18n="value">Dəyər</span>: <span id="takeValue">0</span></h3>
     </section>
   </div>
 
   <!-- RESULT -->
   <div id="result" class="trade-result">⚖️ Trade gözləyir...</div>
-  <div class="trade-actions"><button id="saveTrade" class="admin-button" type="button">💾 Trade-i yadda saxla</button></div>
-  <section class="trade-history-panel"><div class="history-heading"><h2>🕘 Trade tarixçəsi</h2><button id="clearTradeHistory" class="admin-button secondary">Təmizlə</button></div><div id="tradeHistory"></div></section>
+  <div class="trade-actions"><button id="saveTrade" class="admin-button" type="button">💾 <span data-i18n="saveTrade">Trade-i yadda saxla</span></button></div>
+  <section class="trade-history-panel"><div class="history-heading"><h2>🕘 <span data-i18n="history">Trade tarixçəsi</span></h2><button id="clearTradeHistory" class="admin-button secondary" data-i18n="clear">Təmizlə</button></div><div id="tradeHistory"></div></section>
 
   <!-- TOAST -->
   <div id="toast"></div>
 
   <footer>
-    <p>© 2026 MM2 Vault • Made for Roblox Players</p>
+    <p>© 2026 MM2 Vault • <span data-i18n="madeFor">Made for Roblox Players</span></p>
   </footer>
 
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
