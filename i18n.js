@@ -77,7 +77,7 @@ function installLanguagePicker(){
   picker.setAttribute('aria-label',tr('language'));
   picker.innerHTML='<span class="language-globe" aria-hidden="true">◎</span><select aria-label="Language"><option value="az">AZ — Azərbaycan</option><option value="tr">TR — Türkçe</option><option value="en">EN — English</option><option value="ru">RU — Русский</option></select>';
   (header.querySelector('.header-inner') || header).appendChild(picker);
-  picker.querySelector('select').addEventListener('change',e=>applyLanguage(e.target.value));
+  picker.querySelector('select').addEventListener('change',e=>{ applyLanguage(e.target.value); window.location.reload(); });
   applyLanguage(lang());
 }
 document.addEventListener('DOMContentLoaded',installLanguagePicker);
