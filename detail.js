@@ -74,7 +74,7 @@ function renderDetail(itemId) {
   const chart = history.slice(-12).map((entry, index) => `<div class="history-bar" style="height:${Math.max(12, (Number(entry.value) / maxValue) * 100)}%" title="${entry.value}"><span>${entry.value}</span></div>`).join('');
   detailContainer.innerHTML = `
     <div class="detail-card rarity-${item.category}">
-      <img src="${item.image || 'default.png'}" alt="${item.name}" onerror="this.src='default.png'" />
+      <img src="${item.image || 'default.svg'}" alt="${item.name}" onerror="this.src='default.svg'" />
       <h1>${item.name}</h1>
       <div class="value-big">💰 ${item.value}</div>
       <div style="color:var(--text-secondary);font-size:14px;margin-top:4px;">
