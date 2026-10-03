@@ -81,3 +81,7 @@ function installLanguagePicker(){
   applyLanguage(lang());
 }
 document.addEventListener('DOMContentLoaded',installLanguagePicker);
+
+window.addEventListener('mm2:languagechange',()=>{
+  document.querySelectorAll('[data-lang-text]').forEach(el=>{el.textContent=tr(el.dataset.langText);});
+});
