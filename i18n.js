@@ -53,6 +53,34 @@ const PHRASES={
 'ru':{'TRADE VALUES':'ЦЕННОСТИ ТРЕЙДА','LIVE MARKET DATA':'АКТУАЛЬНЫЕ ДАННЫЕ РЫНКА','MARKET':'РЫНОК','MARKET PULSE':'ОБЗОР РЫНКА','TOP PICKS':'ЛУЧШИЕ ПРЕДМЕТЫ','ARCHIVE':'АРХИВ','Live Values':'Актуальные цены','Demand':'Спрос','Favorites':'Избранное','Dəyərləri tez yoxla':'Быстрая проверка цен','Populyar itemləri gör':'Популярные предметы','Sevdiklərini saxla':'Сохраняйте любимое','Made for Roblox Players':'Для игроков Roblox','Made for Roblox players':'Для игроков Roblox','Detay yüklənir...':'Загрузка деталей...','Trade yüklənir...':'Загрузка трейда...','Yüklənir...':'Загрузка...'}
 };
 
+for(const l of Object.keys(PHRASES)){Object.assign(PHRASES[l],{
+'Yeni dəyər dəyişiklikləri burada görünəcək':l==='az'?'Yeni dəyər dəyişiklikləri burada görünəcək':l==='tr'?'Yeni değer değişiklikleri burada görünecek':l==='en'?'New value changes will appear here':'Здесь появятся новые изменения цен',
+'items.json tapılmadı':l==='az'?'items.json tapılmadı':l==='tr'?'items.json bulunamadı':l==='en'?'items.json not found':'items.json не найден',
+'Cloud itemləri yüklənmədi, JSON istifadə olunur:':l==='az'?'Cloud itemləri yüklənmədi, JSON istifadə olunur:':l==='tr'?'Cloud eşyaları yüklenemedi, JSON kullanılıyor:':l==='en'?'Cloud items could not be loaded, using JSON:':'Не удалось загрузить предметы из облака, используется JSON:',
+'items.json yüklənmədi, fallback məlumatlar istifadə olunur:':l==='az'?'items.json yüklənmədi, fallback məlumatlar istifadə olunur:':l==='tr'?'items.json yüklenemedi, yedek veriler kullanılıyor:':l==='en'?'items.json could not be loaded, using fallback data:':'items.json не удалось загрузить, используются резервные данные:',
+'items.json yüklənmədi, fallback istifadə olunur:':l==='az'?'items.json yüklənmədi, fallback istifadə olunur:':l==='tr'?'items.json yüklenemedi, yedek kullanılıyor:':l==='en'?'items.json could not be loaded, using fallback:':'items.json не удалось загрузить, используется резервный вариант:',
+'Item tapılmadı':l==='az'?'Item tapılmadı':l==='tr'?'Eşya bulunamadı':l==='en'?'Item not found':'Предмет не найден',
+'Bu ID ilə heç bir item yoxdur':l==='az'?'Bu ID ilə heç bir item yoxdur':l==='tr'?'Bu ID ile eşya yok':l==='en'?'No item exists with this ID':'Предмет с таким ID отсутствует',
+'Heç bir nəticə tapılmadı':l==='az'?'Heç bir nəticə tapılmadı':l==='tr'?'Hiçbir sonuç bulunamadı':l==='en'?'No results found':'Результаты не найдены',
+'Heç bir item seçilməyib':l==='az'?'Heç bir item seçilməyib':l==='tr'?'Hiçbir eşya seçilmedi':l==='en'?'No item selected':'Предмет не выбран',
+'FAIR TRADE':l==='az'?'ƏDALƏTLİ TRADE':l==='tr'?'ADİL TRADE':l==='en'?'FAIR TRADE':'РАВНЫЙ ТРЕЙД',
+'Hələ trade tarixçəsi yoxdur.':l==='az'?'Hələ trade tarixçəsi yoxdur.':l==='tr'?'Henüz trade geçmişi yok.':l==='en'?'No trade history yet.':'Истории трейдов пока нет.',
+'Bütün itemlər göstərilir':l==='az'?'Bütün itemlər göstərilir':l==='tr'?'Tüm eşyalar gösteriliyor':l==='en'?'All items are shown':'Показаны все предметы',
+'Hələ cloud itemi yoxdur.':l==='az'?'Hələ cloud itemi yoxdur.':l==='tr'?'Henüz cloud eşyası yok.':l==='en'?'No cloud items yet.':'Облачных предметов пока нет.',
+'Bu item silinsin?':l==='az'?'Bu item silinsin?':l==='tr'?'Bu eşya silinsin mi?':l==='en'?'Delete this item?':'Удалить этот предмет?',
+'Item silindi.':l==='az'?'Item silindi.':l==='tr'?'Eşya silindi.':l==='en'?'Item deleted.':'Предмет удалён.',
+'Silinmədi. Firestore rules və bağlantını yoxla.':l==='az'?'Silinmədi. Firestore rules və bağlantını yoxla.':l==='tr'?'Silinemedi. Firestore kurallarını ve bağlantıyı kontrol et.':l==='en'?'Could not delete. Check Firestore rules and connection.':'Не удалось удалить. Проверьте правила Firestore и подключение.',
+'💾 Dəyişiklikləri saxla':l==='az'?'💾 Dəyişiklikləri saxla':l==='tr'?'💾 Değişiklikleri kaydet':l==='en'?'💾 Save changes':'💾 Сохранить изменения',
+'Itemlər yüklənmədi. Firestore kolleksiyası və rules qurulmalıdır.':l==='az'?'Itemlər yüklənmədi. Firestore kolleksiyası və rules qurulmalıdır.':l==='tr'?'Eşyalar yüklenemedi. Firestore koleksiyonu ve kurallar kurulmalı.':l==='en'?'Items could not be loaded. Firestore collection and rules are required.':'Не удалось загрузить предметы. Требуются коллекция Firestore и правила.',
+'Uyğun dəyişiklik tapılmadı.':l==='az'?'Uyğun dəyişiklik tapılmadı.':l==='tr'?'Uygun değişiklik bulunamadı.':l==='en'?'No matching changes found.':'Подходящих изменений не найдено.',
+'✓ Saxlandı':l==='az'?'✓ Saxlandı':l==='tr'?'✓ Kaydedildi':l==='en'?'✓ Saved':'✓ Сохранено',
+'⏳ Analiz edilir...':l==='az'?'⏳ Analiz edilir...':l==='tr'?'⏳ Analiz ediliyor...':l==='en'?'⏳ Analyzing...':'⏳ Анализ...',
+'🤖 Dəyərləri analiz et':l==='az'?'🤖 Dəyərləri analiz et':l==='tr'?'🤖 Değerleri analiz et':l==='en'?'🤖 Analyze values':'🤖 Анализировать цены',
+'Mövcud 101 item Firestore-a köçürülsün?':l==='az'?'Mövcud 101 item Firestore-a köçürülsün?':l==='tr'?'Mevcut 101 eşya Firestore\'a aktarılsın mı?':l==='en'?'Move the existing 101 items to Firestore?':'Перенести существующие 101 предмет в Firestore?',
+'➕ Item əlavə et':l==='az'?'➕ Item əlavə et':l==='tr'?'➕ Eşya ekle':l==='en'?'➕ Add item':'➕ Добавить предмет',
+'Item yeniləndi.':l==='az'?'Item yeniləndi.':l==='tr'?'Eşya güncellendi.':l==='en'?'Item updated.':'Предмет обновлён.',
+'Item uğurla əlavə edildi.':l==='az'?'Item uğurla əlavə edildi.':l==='tr'?'Eşya başarıyla eklendi.':l==='en'?'Item added successfully.':'Предмет успешно добавлен.'
+});}
 function translateValue(value,l){
  if(typeof value!=='string') return value;
  const map=PHRASES[l]||{};
