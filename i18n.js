@@ -90,11 +90,11 @@ function translateValue(value,l){
 }
 function localize(root=document){
  const l=lang();
- root.querySelectorAll?.('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(T[l][k]!==undefined)el.textContent=T[l][k]});
+ root.querySelectorAll?.('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(T[l][k]!==undefined&&el.textContent!==T[l][k])el.textContent=T[l][k]});
  root.querySelectorAll?.('[data-i18n-placeholder]').forEach(el=>{const k=el.dataset.i18nPlaceholder;if(T[l][k]!==undefined)el.placeholder=T[l][k]});
  root.querySelectorAll?.('[data-i18n-title]').forEach(el=>{const k=el.dataset.i18nTitle;if(T[l][k]!==undefined)el.title=T[l][k]});
  root.querySelectorAll?.('[data-i18n-aria]').forEach(el=>{const k=el.dataset.i18nAria;if(T[l][k]!==undefined)el.setAttribute('aria-label',T[l][k])});
- root.querySelectorAll?.('option[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(T[l][k]!==undefined)el.textContent=T[l][k]});
+ root.querySelectorAll?.('option[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(T[l][k]!==undefined&&el.textContent!==T[l][k])el.textContent=T[l][k]});
  root.querySelectorAll?.('[data-i18n-meta]').forEach(el=>{const k=el.dataset.i18nMeta;if(T[l][k]!==undefined)el.setAttribute('content',T[l][k])});
  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
  const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
