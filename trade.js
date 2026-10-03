@@ -144,38 +144,47 @@ window.removeItem = function(type, index) {
   updateTradeResult();
 };
 
-// ---------- UPDATE TRADE RESULT ----------
+// ---------- TRADE SCORING ----------
+function getTradeMetrics(list) {
+  const rawValue = list.reduce((sum, item) => sum + Number(item.value || 0), 0);
+  const demandTotal = list.reduce((sum, item) => sum + Number(item.demand || 0), 0);
+  const averageDemand = list.length ? demandTotal / list.length : 0;
+  // Demand gently influences the comparison; value remains the main signal.
+  const demandMultiplier = 1 + Math.max(0, averageDemand - 5) * 0.025;
+  return { rawValue, averageDemand, adjustedValue: rawValue * demandMultiplier, count: list.length };
+}
+
 function updateTradeResult() {
   if (!result) return;
 
-  const giveTotal = giveItems.reduce((sum, item) => sum + item.value, 0);
-  const takeTotal = takeItems.reduce((sum, item) => sum + item.value, 0);
-
-  if (giveTotal === 0 && takeTotal === 0) {
+  const give = getTradeMetrics(giveItems);
+  const take = getTradeMetrics(takeItems);
+  if (!give.rawValue && !take.rawValue) {
     result.className = 'trade-result';
-    result.innerHTML = '⚖️ Trade gözləyir...';
+    result.innerHTML = '<span class="trade-status-icon">↔</span><strong>Trade gözləyir...</strong><small>Hər iki tərəfdən item seç.</small>';
     return;
   }
 
-  const diff = takeTotal - giveTotal;
+  const diff = take.adjustedValue - give.adjustedValue;
+  const base = Math.max(give.adjustedValue, take.adjustedValue, 1);
+  const percent = (Math.abs(diff) / base) * 100;
+  const tolerance = Math.max(2, base * 0.025);
   let status = 'fair';
-  let emoji = '⚖️';
-  let text = 'Bərabər Trade!';
+  let title = 'FAIR TRADE';
+  let icon = '↔';
 
-  if (diff > 0) {
-    status = 'win';
-    emoji = '✅';
-    text = `Sən qazanırsan! ${Math.abs(diff)} dəyər`;
-  } else if (diff < 0) {
-    status = 'lose';
-    emoji = '❌';
-    text = `Sən zərərdəsən! ${Math.abs(diff)} dəyər`;
+  if (diff > tolerance) {
+    status = 'win'; title = 'WIN'; icon = '↑';
+  } else if (diff < -tolerance) {
+    status = 'lose'; title = 'LOSE'; icon = '↓';
   }
 
+  const signed = Math.round(Math.abs(diff) * 10) / 10;
   result.className = `trade-result ${status}`;
   result.innerHTML = `
-    ${emoji} ${text}
-    <small>Sən: ${giveTotal} ⚖️ Qarşı: ${takeTotal}</small>
+    <span class="trade-status-icon">${icon}</span>
+    <div><strong>${title}</strong><small>${status === 'fair' ? 'Dəyərlər bir-birinə çox yaxındır.' : status === 'win' ? `Təxminən +${signed} adjusted value` : `Təxminən -${signed} adjusted value`}</small></div>
+    <div class="trade-metrics"><span>${give.count} item · ${Math.round(give.rawValue)}</span><b>${percent.toFixed(1)}%</b><span>${take.count} item · ${Math.round(take.rawValue)}</span></div>
   `;
 }
 
@@ -185,11 +194,13 @@ function renderTradeHistory() {
 }
 
 function saveTradeHistory() {
-  const giveTotal = giveItems.reduce((sum, item) => sum + item.value, 0);
-  const takeTotal = takeItems.reduce((sum, item) => sum + item.value, 0);
-  if (!giveTotal && !takeTotal) return;
-  const status = takeTotal > giveTotal ? 'win' : takeTotal < giveTotal ? 'lose' : 'fair';
-  tradeHistory.unshift({ date: new Date().toISOString(), give: giveTotal, take: takeTotal, status });
+  const give = getTradeMetrics(giveItems);
+  const take = getTradeMetrics(takeItems);
+  if (!give.rawValue && !take.rawValue) return;
+  const diff = take.adjustedValue - give.adjustedValue;
+  const tolerance = Math.max(2, Math.max(give.adjustedValue, take.adjustedValue, 1) * 0.025);
+  const status = diff > tolerance ? 'win' : diff < -tolerance ? 'lose' : 'fair';
+  tradeHistory.unshift({ date: new Date().toISOString(), give: Math.round(give.rawValue), take: Math.round(take.rawValue), status, giveCount: give.count, takeCount: take.count });
   tradeHistory = tradeHistory.slice(0, 20);
   localStorage.setItem('mm2_trade_history', JSON.stringify(tradeHistory));
   renderTradeHistory();
