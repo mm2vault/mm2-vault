@@ -5,14 +5,23 @@ initializeApp();
 const db=getFirestore();
 const ADMIN_EMAIL='mm2ultimatehub@gmail.com';
 const adminOf=req=>req.auth?.token?.email?.toLowerCase()===ADMIN_EMAIL;
+const DEFAULT_COSMETICS={
+ 'aurora-frame':{id:'aurora-frame',name:'Aurora Frame',type:'frame',price:900,image:'https://i.imgur.com/0aseHjC.gif',description:'Neon purple avatar frame.',active:true},
+ 'void-frame':{id:'void-frame',name:'Void Frame',type:'frame',price:1200,image:'https://i.imgur.com/TLBHiUn.gif',description:'Dark animated avatar frame.',active:true},
+ 'ember-frame':{id:'ember-frame',name:'Ember Frame',type:'frame',price:1500,image:'https://i.imgur.com/5mFOKEl.gif',description:'Animated red-gold frame.',active:true},
+ 'vault-badge':{id:'vault-badge',name:'Vault Member',type:'badge',price:500,image:'default.svg',description:'MM2 Vault profile badge.',active:true},
+ 'market-badge':{id:'market-badge',name:'Market Hunter',type:'badge',price:700,image:'default.svg',description:'Rare market hunter badge.',active:true},
+ 'purple-glow':{id:'purple-glow',name:'Purple Glow',type:'decoration',price:1000,image:'default.svg',description:'Soft purple profile decoration.',active:true}
+};
 exports.purchaseCosmetic=onCall(async req=>{
  if(!req.auth)throw new HttpsError('unauthenticated','Giriş tələb olunur.');
  const id=String(req.data?.cosmeticId||'').trim();if(!id)throw new HttpsError('invalid-argument','Cosmetic seçilməyib.');
  return db.runTransaction(async tx=>{
   const userRef=db.doc('users/'+req.auth.uid),cosRef=db.doc('cosmetics/'+id);
   const [uSnap,cSnap]=await Promise.all([tx.get(userRef),tx.get(cosRef)]);
-  if(!cSnap.exists||cSnap.data().active===false)throw new HttpsError('not-found','Məhsul tapılmadı.');
-  const user=uSnap.data()||{},cos=cSnap.data()||{},coins=Number(user.coins||0),price=Math.max(0,Number(cos.price||0));
+  if(!cSnap.exists){const fallback=DEFAULT_COSMETICS[id];if(!fallback)throw new HttpsError('not-found','Məhsul tapılmadı.');tx.set(cosRef,fallback,{merge:true});}
+  if((cSnap.exists&&cSnap.data().active===false))throw new HttpsError('not-found','Məhsul tapılmadı.');
+  const user=uSnap.data()||{},cos=cSnap.exists?cSnap.data():DEFAULT_COSMETICS[id],coins=Number(user.coins||0),price=Math.max(0,Number(cos.price||0));
   const inv=Array.isArray(user.inventory)?user.inventory:[];if(inv.includes(id))return {ok:true,alreadyOwned:true,coins};
   if(coins<price)throw new HttpsError('failed-precondition','Kifayət qədər coin yoxdur.');
   const nextCoins=coins-price;
