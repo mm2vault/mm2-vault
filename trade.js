@@ -33,7 +33,7 @@ const giveValue = document.getElementById('giveValue');
 const takeValue = document.getElementById('takeValue');
 const result = document.getElementById('result');
 const tradeHistoryContainer = document.getElementById('tradeHistory');
-let tradeHistory = JSON.parse(localStorage.getItem('mm2_trade_history') || '[]');
+let tradeHistory = (() => { try { const value = JSON.parse(localStorage.getItem('mm2_trade_history') || '[]'); return Array.isArray(value) ? value : []; } catch { return []; } })();
 
 // ---------- LOAD DATA ----------
 async function loadItems() {
