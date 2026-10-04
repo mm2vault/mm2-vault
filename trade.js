@@ -8,20 +8,6 @@ let takeItems = [];
 let giveSearchTerm = '';
 let takeSearchTerm = '';
 
-function normalizeItems(data) {
-  const list = Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : []);
-  const seen = new Set();
-  return list.map((item, index) => {
-    const raw = String(item?.id || '').trim();
-    const base = raw || String(item?.name || 'item').toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '') || `item_${index + 1}`;
-    let id = base;
-    let n = 2;
-    while (seen.has(id)) id = `${base}_${n++}`;
-    seen.add(id);
-    return { ...item, id };
-  });
-}
-
 // ---------- DOM REFS ----------
 const giveSearch = document.getElementById('giveSearch');
 const takeSearch = document.getElementById('takeSearch');
@@ -36,32 +22,7 @@ const tradeHistoryContainer = document.getElementById('tradeHistory');
 let tradeHistory = (() => { try { const value = JSON.parse(localStorage.getItem('mm2_trade_history') || '[]'); return Array.isArray(value) ? value : []; } catch { return []; } })();
 
 // ---------- LOAD DATA ----------
-async function loadItems() {
-  try {
-    const res = await fetch('items.json');
-    if (!res.ok) throw new Error('items.json tapılmadı');
-    const data = await res.json();
-    items = normalizeItems(data);
-    if (window.firebaseDb) {
-      try {
-        const cloudSnapshot = await window.firebaseDb.collection('items').get();
-        const cloudItems = cloudSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        const merged = new Map(items.map(item => [item.id, item]));
-        cloudItems.forEach(item => merged.set(item.id, item));
-        items = normalizeItems([...merged.values()]);
-      } catch (cloudError) {
-        console.warn('Cloud itemləri yüklənmədi, JSON istifadə olunur:', cloudError);
-      }
-    }
-  } catch (error) {
-    console.warn('items.json yüklənmədi, fallback istifadə olunur:', error);
-    items = [
-      { id: 'travelers_axe', name: "Traveler's Axe", value: 1000, image: 'Travellers_Axe.png', category: 'Unique' },
-      { id: 'makeshift', name: 'Makeshift', value: 800, image: 'Makeshift.png', category: 'Unique' },
-      { id: 'chroma_luger', name: 'Chroma Luger', value: 450, image: 'Chroma_Luger.png', category: 'Chroma' },
-    ];
-  }
-}
+async function loadItems() { items = await window.MM2VaultData.loadItems(); }
 
 // ---------- RENDER RESULTS ----------
 function renderResults(searchTerm, container, selectedItems, type) {
