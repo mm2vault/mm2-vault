@@ -214,33 +214,7 @@ function renderAll() {
 }
 
 // ---------- LOAD DATA ----------
-async function loadItems() {
-  try {
-    const response = await fetch('items.json');
-    if (!response.ok) throw new Error('items.json tapılmadı');
-    const data = await response.json();
-    items = normalizeItems(data);
-    if (window.firebaseDb) {
-      try {
-        const cloudSnapshot = await window.firebaseDb.collection('items').get();
-        const cloudItems = cloudSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        const merged = new Map(items.map(item => [item.id, item]));
-        cloudItems.forEach(item => merged.set(item.id, item));
-        items = normalizeItems([...merged.values()]);
-      } catch (cloudError) {
-        console.warn('Cloud itemləri yüklənmədi, JSON istifadə olunur:', cloudError);
-      }
-    }
-  } catch (error) {
-    console.warn('items.json yüklənmədi, fallback məlumatlar istifadə olunur:', error);
-    // Fallback: əgər items.json yoxdursa
-    items = [
-      { id: 'travelers_axe', name: "Traveler's Axe", category: 'Unique', value: 1000, demand: 10, image: 'Travellers_Axe.png' },
-      { id: 'makeshift', name: 'Makeshift', category: 'Unique', value: 800, demand: 9, image: 'Makeshift.png' },
-      { id: 'chroma_luger', name: 'Chroma Luger', category: 'Chroma', value: 450, demand: 9, image: 'Chroma_Luger.png' },
-    ];
-  }
-}
+async function loadItems() { return window.MM2VaultData.loadItems(); }
 
 // ---------- INIT ----------
 async function init() {
