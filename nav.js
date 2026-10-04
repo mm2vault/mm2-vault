@@ -8,6 +8,14 @@
       el.setAttribute('aria-hidden', String(!allowed));
     });
   }
+  function applyPremiumSubpage(){
+    const path=location.pathname.toLowerCase();
+    const cls=path.includes('profile')?'vault-profile':path.includes('favorites')?'vault-favorites':path.includes('detail')?'vault-detail':'';
+    if(cls) document.body.classList.add(cls);
+    if(!document.querySelector('link[data-subpage-premium]')){
+      const link=document.createElement('link'); link.rel='stylesheet'; link.href='subpages-premium.css'; link.dataset.subpagePremium='1'; document.head.appendChild(link);
+    }
+  }
   function init() {
     if (window.firebaseAuth && typeof window.firebaseAuth.onAuthStateChanged === 'function') {
       window.firebaseAuth.onAuthStateChanged(apply);
