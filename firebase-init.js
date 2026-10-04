@@ -13,4 +13,4 @@ if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 window.firebaseApp = firebase.app();
 window.firebaseAuth = firebase.auth();
 window.firebaseDb = firebase.firestore();
-window.firebaseFunctions = firebase.functions();
+window.firebaseFunctions = typeof firebase.functions === 'function' ? firebase.functions() : null;
