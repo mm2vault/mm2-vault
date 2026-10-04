@@ -30,7 +30,9 @@ function isFavorite(id) {
   return favorites.includes(id);
 }
 
-function normalizeItems(data) {
+function normalizeItems(data) { /* legacy wrapper; shared data layer owns normalization */
+  return window.MM2VaultData.normalizeItems(data);
+  /* legacy implementation kept unreachable for compatibility */
   const list = Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : []);
   const seen = new Set();
   return list.map((item, index) => {
@@ -214,7 +216,7 @@ function renderAll() {
 }
 
 // ---------- LOAD DATA ----------
-async function loadItems() { return window.MM2VaultData.loadItems(); }
+async function loadItems() { items = await window.MM2VaultData.loadItems(); return items; }
 
 // ---------- INIT ----------
 async function init() {
