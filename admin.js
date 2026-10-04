@@ -185,3 +185,39 @@ itemForm.addEventListener('submit', async event => {
     setMessage(formMessage, `Item əlavə edilmədi: ${error.message}`, 'error');
   }
 });
+
+
+async function adminCall(name,data){
+  if(!window.firebaseFunctions) throw new Error('Firebase Functions hazır deyil.');
+  return (await window.firebaseFunctions.httpsCallable(name)(data)).data;
+}
+const DEFAULT_COSMETICS=[
+{id:'aurora-frame',name:'Aurora Frame',type:'frame',price:900,image:'https://i.imgur.com/0aseHjC.gif',description:'Neon purple avatar frame.',active:true},
+{id:'void-frame',name:'Void Frame',type:'frame',price:1200,image:'https://i.imgur.com/TLBHiUn.gif',description:'Dark animated avatar frame.',active:true},
+{id:'ember-frame',name:'Ember Frame',type:'frame',price:1500,image:'https://i.imgur.com/5mFOKEl.gif',description:'Animated red-gold frame.',active:true},
+{id:'vault-badge',name:'Vault Member',type:'badge',price:500,image:'default.svg',description:'MM2 Vault profile badge.',active:true},
+{id:'market-badge',name:'Market Hunter',type:'badge',price:700,image:'default.svg',description:'Rare market hunter badge.',active:true},
+{id:'purple-glow',name:'Purple Glow',type:'decoration',price:1000,image:'default.svg',description:'Soft purple profile decoration.',active:true}
+];
+async function loadAdminUsers(){
+ const data=await adminCall('adminListUsers',{});
+ const select=document.getElementById('grantUser');if(!select)return;
+ select.innerHTML='<option value="">İstifadəçi seç</option>'+data.users.map(u=>'<option value="'+u.uid+'">'+(u.name||u.email)+' — '+u.email+'</option>').join('');
+}
+document.getElementById('coinGrantForm')?.addEventListener('submit',async e=>{
+ e.preventDefault();const message=document.getElementById('storeAdminMessage');
+ try{const data=await adminCall('adminGrantCoins',{uid:document.getElementById('grantUser').value,amount:Number(document.getElementById('grantAmount').value)});message.textContent='Coin balansı yeniləndi: '+data.coins;message.className='admin-message success';}
+ catch(err){message.textContent=err.message;message.className='admin-message error';}
+});
+document.getElementById('cosmeticForm')?.addEventListener('submit',async e=>{
+ e.preventDefault();const message=document.getElementById('storeAdminMessage');
+ const data={id:document.getElementById('cosmeticId').value.trim(),name:document.getElementById('cosmeticName').value.trim(),type:document.getElementById('cosmeticType').value,price:Number(document.getElementById('cosmeticPrice').value),image:document.getElementById('cosmeticImage').value.trim()||'default.svg',description:document.getElementById('cosmeticDescription').value.trim(),active:true};
+ try{await adminCall('adminUpsertCosmetic',data);message.textContent='Cosmetic saxlanıldı.';message.className='admin-message success';e.target.reset();}
+ catch(err){message.textContent=err.message;message.className='admin-message error';}
+});
+document.getElementById('seedCosmetics')?.addEventListener('click',async()=>{
+ const message=document.getElementById('storeAdminMessage');
+ try{const data=await adminCall('adminSeedCosmetics',{items:DEFAULT_COSMETICS});message.textContent=data.count+' kosmetika əlavə edildi.';message.className='admin-message success';}
+ catch(err){message.textContent=err.message;message.className='admin-message error';}
+});
+firebaseAuth.onAuthStateChanged(user=>{if(user&&isMm2Admin(user))loadAdminUsers().catch(()=>{});});
