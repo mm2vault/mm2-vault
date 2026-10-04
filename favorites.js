@@ -5,20 +5,6 @@ const favCount = document.getElementById('favCount');
 const loader = document.getElementById('loader');
 const toast = document.getElementById('toast');
 
-function normalizeItems(data) {
-  const list = Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : []);
-  const seen = new Set();
-  return list.map((item, index) => {
-    const raw = String(item?.id || '').trim();
-    const base = raw || String(item?.name || 'item').toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '') || 'item_' + (index + 1);
-    let id = base;
-    let n = 2;
-    while (seen.has(id)) id = base + '_' + n++;
-    seen.add(id);
-    return { ...item, id };
-  });
-}
-
 let toastTimeout;
 function showToast(message, type = 'success') {
   if (!toast) return;
@@ -58,27 +44,6 @@ function renderFavorites() {
   }));
 }
 
-async function init() {
-  try {
-    const response = await fetch('items.json');
-    if (!response.ok) throw new Error('items.json tapılmadı');
-    items = normalizeItems(await response.json());
-    if (window.firebaseDb) {
-      try {
-        const cloudSnapshot = await window.firebaseDb.collection('items').get();
-        const cloudItems = cloudSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        const merged = new Map(items.map(item => [item.id, item]));
-        cloudItems.forEach(item => merged.set(item.id, item));
-        items = normalizeItems([...merged.values()]);
-      } catch (cloudError) {
-        console.warn('Cloud itemləri yüklənmədi, JSON istifadə olunur:', cloudError);
-      }
-    }
-  } catch (error) {
-    console.warn('items.json yüklənmədi:', error);
-  }
-  renderFavorites();
-  if (loader) setTimeout(() => loader.classList.add('hidden'), 400);
-}
+async function init() { items = await window.MM2VaultData.loadItems(); renderFavorites(); if (loader) setTimeout(() => loader.classList.add('hidden'), 400); }
 
 document.addEventListener('DOMContentLoaded', init);
