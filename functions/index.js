@@ -38,6 +38,11 @@ exports.adminGrantCoins=onCall(async req=>{
  if(!adminOf(req))throw new HttpsError('permission-denied','Admin icazəsi tələb olunur.');
  const uid=String(req.data?.uid||'').trim(),amount=Math.trunc(Number(req.data?.amount||0));
  if(!uid||!Number.isFinite(amount)||amount===0)throw new HttpsError('invalid-argument','UID və coin miqdarı lazımdır.');
+ if(uid==='ALL'){
+  const snap=await db.collection('users').limit(500).get();const batch=db.batch();
+  snap.docs.forEach(doc=>{const current=Number(doc.data()?.coins||0);batch.set(doc.ref,{coins:Math.max(0,current+amount),updatedAt:FieldValue.serverTimestamp()},{merge:true});});
+  await batch.commit();return {ok:true,count:snap.size};
+ }
  const ref=db.doc('users/'+uid),snap=await ref.get();if(!snap.exists)throw new HttpsError('not-found','İstifadəçi tapılmadı.');
  const current=Number(snap.data()?.coins||0),next=Math.max(0,current+amount);
  await ref.set({coins:next,updatedAt:FieldValue.serverTimestamp()},{merge:true});return {ok:true,coins:next};
