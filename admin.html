@@ -51,7 +51,28 @@
         <button id="analyzeAi" class="admin-button" type="button">🤖 <span data-i18n="analyze">Dəyərləri analiz et</span></button>
         <div id="aiResults" class="ai-results"></div>
       </section>
-      <div class="admin-list-heading"><h2 data-i18n="allItems">Bütün itemlər</h2><button id="seedItems" class="admin-button secondary">📥 Mövcud itemləri cloud-a köçür</button></div>
+      <section class="admin-manager">
+  <div class="admin-list-heading"><div><span class="admin-kicker">VAULT STORE</span><h2>Coin & Cosmetic idarəsi</h2></div></div>
+  <div class="admin-manager-grid">
+    <form id="coinGrantForm" class="admin-mini-form">
+      <label>İstifadəçi<select id="grantUser" required><option value="">İstifadəçi seç</option></select></label>
+      <label>Coin miqdarı<input id="grantAmount" type="number" step="1" required placeholder="500"></label>
+      <button class="admin-button" type="submit">◈ Coin ver</button>
+    </form>
+    <form id="cosmeticForm" class="admin-mini-form">
+      <label>ID<input id="cosmeticId" required placeholder="midnight-frame"></label>
+      <label>Ad<input id="cosmeticName" required></label>
+      <label>Növ<select id="cosmeticType"><option value="frame">Frame</option><option value="badge">Badge</option><option value="decoration">Decoration</option></select></label>
+      <label>Qiymət<input id="cosmeticPrice" type="number" min="0" required></label>
+      <label>Şəkil/GIF URL<input id="cosmeticImage" placeholder="https://..."></label>
+      <label>Açıqlama<textarea id="cosmeticDescription" rows="2"></textarea></label>
+      <button class="admin-button" type="submit">✨ Cosmetic əlavə et</button>
+    </form>
+  </div>
+  <button id="seedCosmetics" class="admin-button secondary" type="button">📦 İlkin kosmetikaları əlavə et</button>
+  <p id="storeAdminMessage" class="admin-message"></p>
+</section>
+<div class="admin-list-heading"><h2 data-i18n="allItems">Bütün itemlər</h2><button id="seedItems" class="admin-button secondary">📥 Mövcud itemləri cloud-a köçür</button></div>
       <div class="admin-toolbar"><input id="adminSearch" data-i18n-placeholder="adminSearch" placeholder="🔍 Admin item axtar..." /><select id="adminCategory"><option value="all" data-i18n="allCategories">Bütün kateqoriyalar</option><option>Chroma</option><option>Godly</option><option>Ancient</option><option>Unique</option><option>Vintage</option><option>Legendary</option><option>Rare</option><option>Uncommon</option><option>Common</option></select></div>
       <div id="adminItems" class="admin-items"></div><p class="admin-footer-note">Item dəyişiklikləri yalnız admin hesabı üçün açıqdır.</p>
     </section>
@@ -61,8 +82,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script src="firebase-init.js"></script><script src="nav.js"></script><script src="data.js"></script>
-  <script src="ai-config.local.js"></script>
-  <script src="ai-helper.js"></script>
+    <script src="market-engine.js"></script><script src="ai-helper.js"></script>
   <script src="i18n.js"></script>
   <script src="auth.js"></script>
   <script src="admin.js"></script>
