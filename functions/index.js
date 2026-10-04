@@ -42,6 +42,13 @@ exports.adminGrantCoins=onCall(async req=>{
  const current=Number(snap.data()?.coins||0),next=Math.max(0,current+amount);
  await ref.set({coins:next,updatedAt:FieldValue.serverTimestamp()},{merge:true});return {ok:true,coins:next};
 });
+exports.adminListUsers=onCall(async req=>{
+ if(!adminOf(req))throw new HttpsError('permission-denied','Admin icazəsi tələb olunur.');
+ const {getAuth}=require('firebase-admin/auth');
+ const out=[];let token;
+ do{const page=await getAuth().listUsers(1000,token);page.users.forEach(u=>out.push({uid:u.uid,email:u.email||'',name:u.displayName||u.email?.split('@')[0]||'User',photoURL:u.photoURL||''}));token=page.pageToken;}while(token);
+ return {users:out.slice(0,500)};
+});
 exports.adminUpsertCosmetic=onCall(async req=>{
  if(!adminOf(req))throw new HttpsError('permission-denied','Admin icazəsi tələb olunur.');
  const data=req.data||{},id=String(data.id||'').trim(),name=String(data.name||'').trim(),type=String(data.type||'').trim();
