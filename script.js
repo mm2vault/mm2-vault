@@ -264,4 +264,9 @@ async function init() {
 document.addEventListener('DOMContentLoaded', init);
 
 /* Premium scroll/header motion */
-document.addEventListener('DOMContentLoaded',()=>{const h=document.querySelector('.vault-header');const loader=document.getElementById('loader');window.addEventListener('scroll',()=>h?.classList.toggle('scrolled',window.scrollY>18),{passive:true});if(loader)setTimeout(()=>loader.classList.add('hidden'),700);const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.style.animationPlayState='running';io.unobserve(e.target)}}),{threshold:.08});document.querySelectorAll('section,.item-card,.feature-card,.market-card').forEach(e=>{e.style.animationPlayState='paused';io.observe(e)})});
+document.addEventListener('DOMContentLoaded',()=>{
+  const h=document.querySelector('.vault-header');
+  const loader=document.getElementById('loader');
+  window.addEventListener('scroll',()=>h?.classList.toggle('scrolled',window.scrollY>18),{passive:true});
+  if(loader)setTimeout(()=>loader.classList.add('hidden'),700);
+});
