@@ -54,6 +54,12 @@ function renderAdminItems(snapshot) {
   }));
 }
 
+async function getBundledItems() {
+  if (window.MM2VaultData) return window.MM2VaultData.loadItems();
+  const response = await fetch('items.json', { cache: 'no-store' });
+  return response.json();
+}
+
 function loadAdminItems() {
   return firebaseDb.collection('items').orderBy('name').get().then(renderAdminItems).catch(() => {
     adminItems.innerHTML = '<p class="admin-muted">Itemlər yüklənmədi. Firestore kolleksiyası və rules qurulmalıdır.</p>';
