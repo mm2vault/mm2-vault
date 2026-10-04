@@ -55,9 +55,9 @@
   <div class="admin-list-heading"><div><span class="admin-kicker">VAULT STORE</span><h2>Coin & Cosmetic idarəsi</h2></div></div>
   <div class="admin-manager-grid">
     <form id="coinGrantForm" class="admin-mini-form">
-      <label>İstifadəçi<select id="grantUser" required><option value="">İstifadəçi seç</option></select></label>
+      <label>İstifadəçi<select id="grantUser" required><option value="">İstifadəçi seç</option><option value="ALL">Bütün istifadəçilər</option></select></label>
       <label>Coin miqdarı<input id="grantAmount" type="number" step="1" required placeholder="500"></label>
-      <button class="admin-button" type="submit">◈ Coin ver</button>
+      <button class="admin-button" type="submit">◈ Coin ver</button><button class="admin-button secondary" id="grantSelf" type="button">Mənə ver</button>
     </form>
     <form id="cosmeticForm" class="admin-mini-form">
       <label>ID<input id="cosmeticId" required placeholder="midnight-frame"></label>
