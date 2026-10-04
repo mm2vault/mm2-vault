@@ -18,3 +18,22 @@ button:disabled{opacity:.5;cursor:not-allowed}.items img{max-width:100%}.card a{
 .language-picker select{background:#0d1422!important;color:#fff!important;border:1px solid #202a3e!important;border-radius:9px!important}.home-account{background:#0d1422!important;border:1px solid #202a3e!important;border-radius:12px!important}.home-account a{color:#fff!important}.stat-badge{background:#0d1422!important;border:1px solid #202a3e!important;border-radius:10px!important}
 @media(max-width:800px){.vault-header .header-inner{min-height:48px}.vault-header .header-actions{gap:5px}.vault-header .language-picker{width:40px}.vault-header .login-button{min-width:40px}.page-social{flex-wrap:wrap}.feature-strip{grid-template-columns:1fr 1fr!important}.market-pulse{overflow:auto}.section-heading{gap:8px}.section-heading h2{font-size:23px!important}.search-area{flex-direction:column}.search-area button{width:100%}.selected-item{min-width:0}.admin-list-heading{flex-direction:column;align-items:stretch}.admin-toolbar{flex-wrap:wrap}.admin-toolbar>*{min-width:0;flex:1}.profile-actions{flex-wrap:wrap}.profile-actions>*{flex:1}.footer-links{flex-wrap:wrap}}
 @media(max-width:520px){.feature-strip{grid-template-columns:1fr!important}.hero-actions>*{width:100%;text-align:center}.items{grid-template-columns:repeat(2,minmax(0,1fr))!important}.card img{height:auto;max-height:110px}.page-discord{width:100%;text-align:center}.page-social .social-link{flex:1;text-align:center}.trade-result{padding:14px!important}.history-heading{flex-direction:column;align-items:stretch}.history-heading .admin-button{width:100%}}
+
+/* ===== HEADER / MENU CONFLICT FIX ===== */
+.menu-toggle,.side-menu,.side-menu-overlay{display:none;}
+.menu-check{display:none!important;}
+@media (max-width:800px){
+  .menu-toggle{display:flex!important;}
+  .side-menu{display:block!important;}
+  .side-menu-overlay{display:block!important;}
+  .menu-check{display:block!important;position:absolute!important;opacity:0!important;pointer-events:none!important;}
+  .vault-header .vault-nav{display:none!important;}
+  header.vault-header>nav:not(.side-menu-nav){display:none!important;}
+  header.vault-header{padding-left:60px!important;}
+}
+@media (min-width:801px){
+  .menu-toggle,.side-menu,.side-menu-overlay{display:none!important;}
+  .menu-check{display:none!important;}
+  .vault-header .vault-nav,header.vault-header>nav:not(.side-menu-nav){display:flex!important;}
+  header.vault-header{padding-left:22px!important;}
+}
