@@ -197,14 +197,42 @@ function renderTradeHistory() {
   tradeHistoryContainer.innerHTML = tradeHistory.length ? tradeHistory.slice(0, 8).map(entry => `<div class="history-row"><span>${new Date(entry.date).toLocaleString()}</span><strong class="${entry.status}">${entry.status.toUpperCase()}</strong><span>${entry.give} → ${entry.take}</span></div>`).join('') : '<p class="admin-muted">Hələ trade tarixçəsi yoxdur.</p>';
 }
 
-function saveTradeHistory() {
+async function saveTradeHistory() {
   const give = getTradeMetrics(giveItems);
   const take = getTradeMetrics(takeItems);
   if (!give.rawValue && !take.rawValue) return;
+
   const diff = take.adjustedValue - give.adjustedValue;
   const tolerance = Math.max(2, Math.max(give.adjustedValue, take.adjustedValue, 1) * 0.025);
   const status = diff > tolerance ? 'win' : diff < -tolerance ? 'lose' : 'fair';
-  tradeHistory.unshift({ date: new Date().toISOString(), give: Math.round(give.rawValue), take: Math.round(take.rawValue), status, giveCount: give.count, takeCount: take.count });
+  const entry = {
+    date: new Date().toISOString(),
+    give: Math.round(give.rawValue),
+    take: Math.round(take.rawValue),
+    status,
+    giveCount: give.count,
+    takeCount: take.count
+  };
+
+  const user = window.firebaseAuth?.currentUser;
+  if (user && window.firebaseDb) {
+    try {
+      await window.firebaseDb.collection('trades').add({
+        ...entry,
+        userId: user.uid,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      tradeHistory.unshift(entry);
+      tradeHistory = tradeHistory.slice(0, 20);
+      localStorage.setItem('mm2_trade_history', JSON.stringify(tradeHistory));
+      renderTradeHistory();
+      return;
+    } catch (error) {
+      console.warn('[MM2 Vault] Trade cloud save failed; using local history:', error);
+    }
+  }
+
+  tradeHistory.unshift(entry);
   tradeHistory = tradeHistory.slice(0, 20);
   localStorage.setItem('mm2_trade_history', JSON.stringify(tradeHistory));
   renderTradeHistory();
@@ -294,6 +322,7 @@ async function initTrade() {
   renderResults('', giveResults, giveItems, 'give');
   renderResults('', takeResults, takeItems, 'take');
   updateTradeResult();
+  await loadTradeHistory();
   renderTradeHistory();
 
   // Hide loader
@@ -303,7 +332,22 @@ async function initTrade() {
   }
 }
 
-document.getElementById('clearTradeHistory')?.addEventListener('click', () => { tradeHistory = []; localStorage.removeItem('mm2_trade_history'); renderTradeHistory(); });
+document.getElementById('clearTradeHistory')?.addEventListener('click', async () => {
+  const user = window.firebaseAuth?.currentUser;
+  if (user && window.firebaseDb) {
+    try {
+      const snapshot = await window.firebaseDb.collection('trades').where('userId', '==', user.uid).get();
+      const batch = window.firebaseDb.batch();
+      snapshot.docs.forEach(doc => batch.delete(doc.ref));
+      await batch.commit();
+    } catch (error) {
+      console.warn('[MM2 Vault] Cloud trade history clear failed:', error);
+    }
+  }
+  tradeHistory = [];
+  localStorage.removeItem('mm2_trade_history');
+  renderTradeHistory();
+});
 document.getElementById('saveTrade')?.addEventListener('click', saveTradeHistory);
 window.saveTradeHistory = saveTradeHistory;
 
