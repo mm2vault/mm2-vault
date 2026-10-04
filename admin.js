@@ -221,3 +221,5 @@ document.getElementById('seedCosmetics')?.addEventListener('click',async()=>{
  catch(err){message.textContent=err.message;message.className='admin-message error';}
 });
 firebaseAuth.onAuthStateChanged(user=>{if(user&&isMm2Admin(user))loadAdminUsers().catch(()=>{});});
+
+document.getElementById('grantSelf')?.addEventListener('click',()=>{const u=firebaseAuth.currentUser;if(u){document.getElementById('grantUser').value=u.uid;document.getElementById('grantUser').dispatchEvent(new Event('change'));}});
