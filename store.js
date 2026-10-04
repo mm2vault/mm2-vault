@@ -21,10 +21,10 @@ function equipped(){return currentUser?.equippedCosmetics||{}}
 function renderStore(){
  const root=$('storeGrid'),owned=ownedIds(),eq=equipped();
  const list=activeCat==='all'?cosmetics:cosmetics.filter(x=>x.type===activeCat);
- root.innerHTML=list.length?list.map(c=>{
-  const own=owned.includes(c.id),active=eq[c.type]===c.id;
-  return '<article class="cosmetic-card"><div class="cosmetic-visual"><img src="'+esc(c.image||'default.svg')+'" alt="'+esc(c.name)+'" onerror="this.src=\'default.svg\'"></div><div class="cosmetic-body"><h3>'+esc(c.name)+'</h3><p>'+esc(c.description||'Profile cosmetic')+'</p><div class="cosmetic-price"><span class="coin-price">◈ '+Number(c.price||0).toLocaleString()</span><button class="store-button '+(active?'equipped':own?'owned':'')+'" data-id="'+esc(c.id)+'">'+(active?'Aktiv':own?'İnventory':'Al')+'</button></div></div></article>'
- }).join(''):'<div class="store-empty">Bu kateqoriyada məhsul yoxdur.</div>';
+ root.innerHTML=list.length?list.map(c=>`
+  <article class="cosmetic-card"><div class="cosmetic-visual"><img class="cosmetic-image" src="${esc(c.image||'default.svg')}" alt="${esc(c.name)}"></div><div class="cosmetic-body"><h3>${esc(c.name)}</h3><p>${esc(c.description||'Profile cosmetic')}</p><div class="cosmetic-price"><span class="coin-price">◈ ${Number(c.price||0).toLocaleString()}</span><button class="store-button ${eq[c.type]===c.id?'equipped':owned.includes(c.id)?'owned':''}" data-id="${esc(c.id)}">${eq[c.type]===c.id?'Aktiv':owned.includes(c.id)?'İnventory':'Al'}</button></div></div></article>
+ `).join(''):'<div class="store-empty">Bu kateqoriyada məhsul yoxdur.</div>';
+ root.querySelectorAll('.cosmetic-image').forEach(img=>img.addEventListener('error',()=>{img.src='default.svg'}));
  root.querySelectorAll('.store-button').forEach(b=>b.addEventListener('click',()=>handleCosmetic(b.dataset.id)));
  $('coinBalance').textContent=Number(currentUser?.coins||0).toLocaleString();
 }
