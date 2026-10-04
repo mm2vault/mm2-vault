@@ -1,5 +1,5 @@
 let items = [];
-let favorites = JSON.parse(localStorage.getItem('mm2_favorites')) || [];
+let favorites = (() => { try { const value = JSON.parse(localStorage.getItem('mm2_favorites') || '[]'); return Array.isArray(value) ? value : []; } catch { return []; } })();
 const container = document.getElementById('favoriteItems');
 const favCount = document.getElementById('favCount');
 const loader = document.getElementById('loader');
