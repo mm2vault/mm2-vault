@@ -10,6 +10,8 @@ const adminCategory = document.getElementById('adminCategory');
 let editingItemId = null;
 let adminItemCache = [];
 
+const cancelEditButton = document.getElementById('cancelEdit');
+
 function setMessage(element, message, type = '') {
   element.textContent = message;
   element.className = `admin-message ${type}`;
@@ -127,6 +129,15 @@ firebaseAuth.onAuthStateChanged(user => {
   adminPanel.classList.remove('hidden');
   document.getElementById('adminIdentity').textContent = `${user.email} hesabı ilə daxil oldun.`;
   loadAdminItems();
+});
+
+cancelEditButton?.addEventListener('click', () => {
+  editingItemId = null;
+  itemForm.reset();
+  document.getElementById('formTitle').textContent = 'Yeni item';
+  document.querySelector('#itemForm button[type="submit"]').innerHTML = '➕ <span>Item əlavə et</span>';
+  cancelEditButton.classList.add('hidden');
+  setMessage(formMessage, '', '');
 });
 
 document.getElementById('logoutButton').addEventListener('click', () => firebaseAuth.signOut());
