@@ -17,6 +17,7 @@
     }
   }
   function init() {
+    applyPremiumSubpage();
     if (window.firebaseAuth && typeof window.firebaseAuth.onAuthStateChanged === 'function') {
       window.firebaseAuth.onAuthStateChanged(apply);
     } else {
