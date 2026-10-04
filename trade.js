@@ -46,11 +46,17 @@ async function loadTradeHistory() {
   try {
     const snapshot = await window.firebaseDb.collection('trades')
       .where('userId', '==', user.uid)
-      .orderBy('createdAt', 'desc')
-      .limit(20)
+      .limit(50)
       .get();
 
-    tradeHistory = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    tradeHistory = snapshot.docs
+      .map(doc => ({ id: doc.id, ...doc.data() }))
+      .sort((a, b) => {
+        const aTime = a.createdAt?.toDate?.()?.getTime?.() || Date.parse(a.date) || 0;
+        const bTime = b.createdAt?.toDate?.()?.getTime?.() || Date.parse(b.date) || 0;
+        return bTime - aTime;
+      })
+      .slice(0, 20);
     tradeHistoryLoaded = true;
     localStorage.setItem('mm2_trade_history', JSON.stringify(tradeHistory));
   } catch (error) {
