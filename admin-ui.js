@@ -10,7 +10,28 @@
 
   function updatePreview() {
     if (!imagePreview) return;
-    imagePreview.src = imageInput && imageInput.value.trim() ? imageInput.value.trim() : 'default.svg';
+    const value = imageInput?.value.trim();
+    imagePreview.src = value || 'default.svg';
+  }
+
+  function updateStats() {
+    if (!items) return;
+    const rows = [...items.querySelectorAll('.admin-item')];
+    if (itemCount) itemCount.textContent = String(rows.length);
+    if (categoryCount) {
+      const categories = new Set(
+        rows.map(row => {
+          const meta = row.querySelector('div > span');
+          return meta?.textContent.split(' · ')[0].trim();
+        }).filter(Boolean)
+      );
+      categoryCount.textContent = String(categories.size);
+    }
+  }
+
+  function setEditMode(active) {
+    if (formTitle) formTitle.textContent = active ? 'Itemi redaktə et' : 'Yeni item';
+    cancelEdit?.classList.toggle('hidden', !active);
   }
 
   imageInput?.addEventListener('input', updatePreview);
@@ -18,23 +39,24 @@
     imagePreview.src = 'default.svg';
   });
 
+  items?.addEventListener('click', event => {
+    const editButton = event.target.closest('.edit-item');
+    if (editButton) setEditMode(true);
+  }, true);
+
   cancelEdit?.addEventListener('click', () => {
-    window.location.reload();
+    setEditMode(false);
+    form?.reset();
+    updatePreview();
+    const submit = form?.querySelector('button[type="submit"]');
+    if (submit) submit.innerHTML = '➕ <span>Item əlavə et</span>';
   });
 
   if (items) {
-    const observer = new MutationObserver(() => {
-      const rows = items.querySelectorAll('.admin-item');
-      if (itemCount) itemCount.textContent = String(rows.length);
-      if (categoryCount) {
-        const values = new Set(Array.from(rows).map(row => row.querySelector('.admin-item-copy span')?.textContent.split(' · ')[0]).filter(Boolean));
-        categoryCount.textContent = String(values.size);
-      }
-    });
+    const observer = new MutationObserver(updateStats);
     observer.observe(items, { childList: true, subtree: true });
+    updateStats();
   }
 
-  form?.addEventListener('input', () => {
-    if (formTitle && imageInput && imageInput.value.trim()) formTitle.dataset.ready = 'true';
-  });
+  form?.addEventListener('input', updatePreview);
 })();
