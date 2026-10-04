@@ -532,3 +532,68 @@ header.vault-header:not(:has(.header-inner)) .stat-badge strong{color:#facc15!im
   #detail .history-chart{height:125px!important;gap:4px!important;padding:10px!important}
   #detail .history-bar span{font-size:8px!important}
 }
+
+
+/* ===== MARKET CARDS PREMIUM v4 ===== */
+.market-shell>.vault-tools{position:sticky;top:76px;z-index:50;box-shadow:0 14px 35px rgba(0,0,0,.16)}
+.market-item-card{position:relative!important;overflow:hidden!important;padding:0!important;cursor:pointer!important;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease!important;background:linear-gradient(155deg,#121a2d,#0a101b)!important}
+.market-item-card:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(139,108,255,.13),transparent 48%);opacity:.8;pointer-events:none}
+.market-item-card:hover{transform:translateY(-6px)!important;border-color:rgba(139,108,255,.5)!important;box-shadow:0 20px 45px rgba(0,0,0,.3),0 0 0 1px rgba(139,108,255,.08)!important}
+.market-item-card:focus-visible{outline:2px solid var(--v-purple);outline-offset:3px}
+.market-item-card .fav-btn{z-index:4;position:absolute!important;right:10px!important;top:10px!important;width:34px!important;height:34px!important;padding:0!important;border-radius:10px!important;display:grid!important;place-items:center!important;font-size:18px!important;backdrop-filter:blur(10px)!important}
+.market-item-card .fav-btn.active{color:#ffd35a!important;background:rgba(244,201,93,.1)!important;border-color:rgba(244,201,93,.3)!important}
+.item-visual{height:190px!important;position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:25px!important;background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.008))!important}
+.item-visual:after{content:"";position:absolute;left:18%;right:18%;bottom:10px;height:18px;background:radial-gradient(ellipse,rgba(139,108,255,.18),transparent 70%);filter:blur(7px);pointer-events:none}
+.item-visual img{position:relative!important;z-index:2;width:100%!important;height:145px!important;object-fit:contain!important;background:transparent!important;border-radius:0!important;filter:drop-shadow(0 14px 18px rgba(0,0,0,.42))!important;transition:transform .25s ease!important}
+.market-item-card:hover .item-visual img{transform:scale(1.06) rotate(-1deg)!important}
+.rarity-pill{position:absolute!important;z-index:3!important;left:10px!important;top:10px!important;padding:5px 8px!important;border-radius:999px!important;background:rgba(8,12,21,.72)!important;border:1px solid rgba(255,255,255,.08)!important;color:#aeb8ca!important;font-size:9px!important;font-weight:800!important;letter-spacing:.7px!important;text-transform:uppercase!important;backdrop-filter:blur(8px)!important}
+.item-card-body{position:relative!important;z-index:2!important;padding:14px 14px 12px!important}
+.item-card-body h3{margin:0 0 9px!important;font-size:14px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.item-meta{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:7px!important}
+.item-meta .value{font-size:16px!important;color:var(--v-gold)!important;font-weight:900!important}
+.item-meta .demand{font-size:10px!important;color:#7f8ba0!important}
+.item-card-footer{display:flex!important;align-items:center!important;justify-content:space-between!important;margin-top:12px!important;padding-top:10px!important;border-top:1px solid rgba(255,255,255,.055)!important;color:#657187!important;font-size:10px!important;font-weight:700!important}
+.item-arrow{color:#a795ff!important;font-size:15px!important;transition:transform .2s ease!important}
+.market-item-card:hover .item-arrow{transform:translateX(3px)!important}
+.top-pick-card .item-visual{height:205px!important}
+.top-pick-card .item-visual img{height:160px!important}
+.top-pick-card:after{content:"TOP";position:absolute;right:-25px;top:17px;z-index:4;transform:rotate(45deg);width:90px;text-align:center;padding:4px;background:linear-gradient(90deg,#8b6cff,#b59cff);color:#fff;font-size:8px;font-weight:900;letter-spacing:1.2px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.items.top-grid{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+.market-pulse{display:flex!important;align-items:center!important;gap:18px!important;padding:13px 15px!important}
+.pulse-label{min-width:150px!important}
+.pulse-items{display:flex!important;gap:7px!important;overflow:auto!important;scrollbar-width:none!important;flex:1!important}
+.pulse-items::-webkit-scrollbar{display:none}
+.pulse-chip{white-space:nowrap!important}
+.vault-tools{display:grid!important;grid-template-columns:minmax(0,1fr) 180px 180px!important;gap:8px!important;align-items:center!important}
+.search-box{width:100%!important}
+.feature-strip{margin:16px 0 28px!important}
+
+@media(max-width:1050px){
+  .items.top-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .items:not(.top-grid){grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+@media(max-width:800px){
+  .market-shell>.vault-tools{top:58px!important}
+  .market-pulse{display:block!important}
+  .pulse-label{margin-bottom:10px!important}
+  .vault-tools{grid-template-columns:1fr 1fr!important}
+  .vault-tools .search-box{grid-column:1/-1!important}
+  .items.top-grid,.items:not(.top-grid){grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .item-visual{height:155px!important;padding:18px!important}
+  .item-visual img{height:115px!important}
+  .top-pick-card .item-visual{height:165px!important}
+  .top-pick-card .item-visual img{height:125px!important}
+  .item-card-body{padding:11px!important}
+  .item-meta{align-items:flex-start!important;flex-direction:column!important;gap:4px!important}
+  .item-meta .value{font-size:14px!important}
+}
+@media(max-width:480px){
+  .vault-tools{grid-template-columns:1fr!important}
+  .vault-tools .search-box{grid-column:auto!important}
+  .feature-strip{gap:8px!important}
+  .item-visual{height:140px!important}
+  .item-visual img{height:100px!important}
+  .top-pick-card .item-visual{height:150px!important}
+  .top-pick-card .item-visual img{height:110px!important}
+  .item-card-body h3{font-size:13px!important}
+}
