@@ -37,3 +37,36 @@ button:disabled{opacity:.5;cursor:not-allowed}.items img{max-width:100%}.card a{
   .vault-header .vault-nav,header.vault-header>nav:not(.side-menu-nav){display:flex!important;}
   header.vault-header{padding-left:22px!important;}
 }
+
+/* ===== MOBILE FINAL PASS ===== */
+@media(max-width:800px){
+  /* never show the desktop bottom nav on phones */
+  .vault-header .vault-nav{display:none!important;}
+  header.vault-header>nav:not(.side-menu-nav){display:none!important;}
+  .vault-header{min-height:56px!important;}
+  /* compact old-style subpage headers */
+  .vault-header>.logo{font-size:26px!important;line-height:1.05!important;}
+  .vault-header>.logo-subtitle{font-size:9px!important;letter-spacing:1.5px!important;}
+  .vault-header>.stats{margin:7px 0 0!important;}
+  /* hamburger must remain above header content */
+  .menu-toggle{left:9px!important;top:9px!important;width:40px!important;height:40px!important;}
+  .menu-check{left:0!important;top:0!important;width:1px!important;height:1px!important;}
+  .side-menu{max-width:90vw!important;}
+  /* prevent oversized trade controls */
+  .trade-card .search-area{flex-direction:row!important;align-items:center!important;}
+  .trade-card .search-area input{min-width:0!important;flex:1 1 auto!important;}
+  .trade-card .search-area button{width:auto!important;flex:0 0 auto!important;min-width:74px!important;padding:0 12px!important;}
+  /* keep action buttons reachable */
+  .trade-actions .admin-button{width:100%!important;}
+  .admin-actions{width:100%!important;}
+  .admin-actions button{min-width:0!important;}
+  /* don't let social/footer controls overflow */
+  .page-social,.footer-links{max-width:100%;overflow:hidden;}
+}
+@media(max-width:390px){
+  .vault-header{padding-left:56px!important;padding-right:8px!important;}
+  .vault-header>.logo{font-size:23px!important;}
+  .vault-header>.logo-subtitle{font-size:8px!important;letter-spacing:1px!important;}
+  .trade-card .search-area button{min-width:68px!important;padding:0 9px!important;font-size:12px!important;}
+  .trade-card .search-area input{font-size:16px!important;}
+}
