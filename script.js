@@ -108,16 +108,18 @@ function renderCards(itemsToRender, container) {
   container.innerHTML = itemsToRender.map(item => {
     const fav = isFavorite(item.id);
     return `
-      <div class="card rarity-${item.category}" data-id="${item.id}">
-        <button class="fav-btn ${fav ? 'active' : ''}" data-id="${item.id}" aria-label="Favori">
-          ${fav ? '★' : '☆'}
-        </button>
-        <img src="${item.image || 'default.svg'}" alt="${item.name}" loading="lazy" onerror="this.src='default.svg'" />
-        <h3>${item.name}</h3>
-        <div class="value">${formatValue(item.value)}</div>
-        <div class="category">${item.category}</div>
-        <div class="demand">Demand ${item.demand}/10</div>
-      </div>
+      <article class="card market-item-card rarity-${item.category}" data-id="${item.id}" tabindex="0" role="button" aria-label="${item.name} detalına bax">
+        <button class="fav-btn ${fav ? 'active' : ''}" data-id="${item.id}" aria-label="Favori">${fav ? '★' : '☆'}</button>
+        <div class="item-visual">
+          <span class="rarity-pill">${item.category || 'Item'}</span>
+          <img src="${item.image || 'default.svg'}" alt="${item.name}" loading="lazy" onerror="this.src='default.svg'" />
+        </div>
+        <div class="item-card-body">
+          <h3>${item.name}</h3>
+          <div class="item-meta"><span class="value">💰 ${formatValue(Number(item.value) || 0)}</span><span class="demand">Demand ${item.demand || 0}/10</span></div>
+          <div class="item-card-footer"><span>View details</span><span class="item-arrow">→</span></div>
+        </div>
+      </article>
     `;
   }).join('');
 
@@ -126,7 +128,7 @@ function renderCards(itemsToRender, container) {
     card.addEventListener('click', (e) => {
       if (e.target.closest('.fav-btn')) return;
       const id = card.dataset.id;
-      window.location.href = `detail.html?id=${id}`;
+      window.location.href = `detail.html?id=${encodeURIComponent(id)}`;
     });
   });
 
@@ -202,7 +204,7 @@ function renderTopItems() {
 
   topItemsContainer.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', () => {
-      window.location.href = `detail.html?id=${card.dataset.id}`;
+      window.location.href = `detail.html?id=${encodeURIComponent(card.dataset.id)}`;
     });
   });
 }
