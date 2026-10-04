@@ -33,13 +33,13 @@ async function handleCosmetic(id){
  const own=ownedIds().includes(id),active=equipped()[c.type]===id;
  if(!currentUser){document.getElementById('storeLogin')?.click();return}
  if(active)return;
- if(own){await callFn('equipCosmetic',{cosmeticId:id});return}
+ if(own){await callFn('equipCosmetic',{cosmeticId:id});const s=await firebaseDb.collection('users').doc(currentUser.uid).get();currentUser={uid:currentUser.uid,...(s.data()||{})};renderStore();return}
  openConfirm(c);
 }
 function openConfirm(c){
  $('storeModalRoot').innerHTML='<div class="store-modal-backdrop"><div class="store-modal"><span class="store-kicker">CONFIRM PURCHASE</span><h2>'+esc(c.name)+'</h2><p>'+esc(c.description||'')+'</p><p style="margin-top:10px"><b style="color:#f4c95d">◈ '+Number(c.price||0).toLocaleString()+'</b> coin</p><div class="store-modal-actions"><button class="store-button" id="cancelBuy">İmtina</button><button class="store-button equipped" id="confirmBuy">Satın al</button></div></div></div>';
  $('cancelBuy').onclick=()=>{ $('storeModalRoot').innerHTML='' };
- $('confirmBuy').onclick=async()=>{ $('confirmBuy').disabled=true;try{await callFn('purchaseCosmetic',{cosmeticId:c.id});$('storeModalRoot').innerHTML=''}catch(e){$('confirmBuy').disabled=false;alert(e.message)} };
+ $('confirmBuy').onclick=async()=>{ $('confirmBuy').disabled=true;try{await callFn('purchaseCosmetic',{cosmeticId:c.id});const s=await firebaseDb.collection('users').doc(currentUser.uid).get();currentUser={uid:currentUser.uid,...(s.data()||{})};renderStore();$('storeModalRoot').innerHTML=''}catch(e){$('confirmBuy').disabled=false;alert(e.message)} };
 }
 async function callFn(name,data){
  if(!window.firebaseFunctions)throw new Error('Firebase Functions bağlantısı hazır deyil. Functions deploy edilməlidir.');
@@ -48,3 +48,5 @@ async function callFn(name,data){
 document.querySelectorAll('.store-tab').forEach(tab=>tab.addEventListener('click',()=>{document.querySelectorAll('.store-tab').forEach(x=>x.classList.remove('active'));tab.classList.add('active');activeCat=tab.dataset.cat;renderStore()}));
 window.firebaseAuth.onAuthStateChanged(async u=>{currentUser=u;if(u){const s=await firebaseDb.collection('users').doc(u.uid).get();currentUser={uid:u.uid,...(s.data()||{})};}renderStore()});
 document.addEventListener('DOMContentLoaded',()=>loadCosmetics());
+
+document.getElementById('storeLogin')?.addEventListener('click',e=>{e.preventDefault();if(typeof openAuth==='function')openAuth();});
