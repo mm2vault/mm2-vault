@@ -19,7 +19,46 @@ const giveValue = document.getElementById('giveValue');
 const takeValue = document.getElementById('takeValue');
 const result = document.getElementById('result');
 const tradeHistoryContainer = document.getElementById('tradeHistory');
-let tradeHistory = (() => { try { const value = JSON.parse(localStorage.getItem('mm2_trade_history') || '[]'); return Array.isArray(value) ? value : []; } catch { return []; } })();
+let tradeHistory = [];
+let tradeHistoryLoaded = false;
+
+async function loadTradeHistory() {
+  const local = (() => {
+    try {
+      const value = JSON.parse(localStorage.getItem('mm2_trade_history') || '[]');
+      return Array.isArray(value) ? value : [];
+    } catch { return []; }
+  })();
+
+  if (!window.firebaseAuth || !window.firebaseDb) {
+    tradeHistory = local;
+    tradeHistoryLoaded = true;
+    return;
+  }
+
+  const user = window.firebaseAuth.currentUser;
+  if (!user) {
+    tradeHistory = local;
+    tradeHistoryLoaded = true;
+    return;
+  }
+
+  try {
+    const snapshot = await window.firebaseDb.collection('trades')
+      .where('userId', '==', user.uid)
+      .orderBy('createdAt', 'desc')
+      .limit(20)
+      .get();
+
+    tradeHistory = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    tradeHistoryLoaded = true;
+    localStorage.setItem('mm2_trade_history', JSON.stringify(tradeHistory));
+  } catch (error) {
+    console.warn('[MM2 Vault] Cloud trade history unavailable:', error);
+    tradeHistory = local;
+    tradeHistoryLoaded = true;
+  }
+}
 
 // ---------- LOAD DATA ----------
 async function loadItems() { items = await window.MM2VaultData.loadItems(); }
