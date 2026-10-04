@@ -4,20 +4,6 @@
 
 let items = [];
 
-function normalizeItems(data) {
-  const list = Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : []);
-  const seen = new Set();
-  return list.map((item, index) => {
-    const raw = String(item?.id || '').trim();
-    const base = raw || String(item?.name || 'item').toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '') || 'item_' + (index + 1);
-    let id = base;
-    let n = 2;
-    while (seen.has(id)) id = base + '_' + n++;
-    seen.add(id);
-    return { ...item, id };
-  });
-}
-
 // ---------- DOM REFS ----------
 const detailContainer = document.getElementById('detail');
 const loader = document.getElementById('loader');
@@ -29,31 +15,7 @@ function getItemId() {
 }
 
 // ---------- LOAD DATA ----------
-async function loadItems() {
-  try {
-    const res = await fetch('items.json');
-    if (!res.ok) throw new Error('items.json tapılmadı');
-    const data = await res.json();
-    items = normalizeItems(data);
-    if (window.firebaseDb) {
-      try {
-        const cloudSnapshot = await window.firebaseDb.collection('items').get();
-        const cloudItems = cloudSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        const merged = new Map(items.map(item => [item.id, item]));
-        cloudItems.forEach(item => merged.set(item.id, item));
-        items = normalizeItems([...merged.values()]);
-      } catch (cloudError) {
-        console.warn('Cloud itemləri yüklənmədi, JSON istifadə olunur:', cloudError);
-      }
-    }
-  } catch (error) {
-    console.warn('items.json yüklənmədi, fallback istifadə olunur:', error);
-    items = [
-      { id: 'travelers_axe', name: "Traveler's Axe", category: 'Unique', value: 1000, demand: 10, image: 'Travellers_Axe.png', year: 2023, type: 'Knife' },
-      { id: 'makeshift', name: 'Makeshift', category: 'Unique', value: 800, demand: 9, image: 'Makeshift.png', year: 2023, type: 'Knife' },
-    ];
-  }
-}
+async function loadItems() { items = await window.MM2VaultData.loadItems(); }
 
 // ---------- RENDER DETAIL ----------
 function renderDetail(itemId) {
