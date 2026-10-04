@@ -3,6 +3,7 @@ function hasAiConfig() {
 }
 
 function parseLocalValueChanges(sourceText, items) {
+  if (window.MM2MarketEngine?.parseValueUpdateText) return window.MM2MarketEngine.parseValueUpdateText(sourceText, items);
   const updates = [];
   const unmatched = [];
   const lines = sourceText.split(/\\r?\\n/).map(line => line.trim()).filter(Boolean);
