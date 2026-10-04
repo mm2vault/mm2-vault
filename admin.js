@@ -85,8 +85,8 @@ function renderAiResults(result) {
     try {
       const item = adminItemCache.find(entry => entry.id === update.id);
       const history = Array.isArray(item.valueHistory) ? item.valueHistory : [{ value: Number(item.value), changedAt: null, source: 'initial' }];
-      history.push({ value: Number(update.newValue), changedAt: new Date().toISOString(), source: 'MM2Values + Gemini' });
-      await firebaseDb.collection('items').doc(update.id).update({ value: Number(update.newValue), previousValue: Number(update.oldValue), valueChange: Number(update.change), valueSource: 'MM2Values + Gemini', valueUpdatedAt: firebase.firestore.FieldValue.serverTimestamp(), valueHistory: history.slice(-30) });
+      history.push({ value: Number(update.newValue), changedAt: new Date().toISOString(), source: 'MM2Values + Market Engine' });
+      await firebaseDb.collection('items').doc(update.id).update({ value: Number(update.newValue), previousValue: Number(update.oldValue), valueChange: Number(update.change), valueSource: 'MM2Values + Market Engine', valueUpdatedAt: firebase.firestore.FieldValue.serverTimestamp(), valueHistory: history.slice(-30) });
       button.textContent = '✓ Saxlandı';
       button.disabled = true;
       setMessage(formMessage, `${update.name} dəyəri yeniləndi.`, 'success');
