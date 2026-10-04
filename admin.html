@@ -12,7 +12,7 @@
   <header class="vault-header"><input class="menu-check" id="menuCheck" type="checkbox">
 <label class="menu-toggle" for="menuCheck" aria-label="Menu"><span></span><span></span><span></span></label>
 <label class="side-menu-overlay" for="menuCheck"></label>
-<aside class="side-menu" id="sideMenu"><div class="side-menu-head"><div class="side-menu-brand"><b>MM2 Vault</b></div><label class="menu-close" for="menuCheck" aria-label="Close">×</label></div><nav class="side-menu-nav"><a href="index.html">Ana Səhifə</a><a href="favorites.html">Favorilər</a><a href="trade.html">Trade</a><a href="profile.html">Profil</a><a href="admin.html">Admin</a></nav></aside>
+<aside class="side-menu" id="sideMenu"><div class="side-menu-head"><div class="side-menu-brand"><b>MM2 Vault</b></div><label class="menu-close" for="menuCheck" aria-label="Close">×</label></div><nav class="side-menu-nav"><a href="index.html">Ana Səhifə</a><a href="favorites.html">Favorilər</a><a href="trade.html">Trade</a><a href="profile.html">Profil</a><a href="admin.html" data-admin-only class="admin-nav-link">Admin</a></nav></aside>
     <div class="logo"><span class="brand-mark">MM2</span> <span data-i18n="admin">Admin</span></div>
     <div class="logo-subtitle" data-i18n="admin">Item idarəetmə paneli</div>
     <nav><a href="index.html" data-i18n="home">🏠 Ana Səhifə</a><a href="trade.html" data-i18n="trade">⚖️ Trade</a><a href="favorites.html" data-i18n="favorites">⭐ Favorilər</a></nav>
@@ -60,7 +60,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <script src="firebase-init.js"></script><script src="data.js"></script>
+  <script src="firebase-init.js"></script><script src="nav.js"></script><script src="data.js"></script>
   <script src="ai-config.local.js"></script>
   <script src="ai-helper.js"></script>
   <script src="i18n.js"></script>
