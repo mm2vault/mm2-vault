@@ -5,7 +5,7 @@
 // ---------- STATE ----------
 let items = [];
 let filteredItems = [];
-let favorites = JSON.parse(localStorage.getItem('mm2_favorites')) || [];
+let favorites = (() => { try { const value = JSON.parse(localStorage.getItem('mm2_favorites') || '[]'); return Array.isArray(value) ? value : []; } catch { return []; } })();
 
 // ---------- DOM REFS ----------
 const itemsContainer = document.getElementById('itemsContainer');
